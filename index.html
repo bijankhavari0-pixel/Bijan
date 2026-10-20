@@ -81,11 +81,15 @@ button.in:not(.x){--sh:#06613f;border-color:#3fd69a;background:linear-gradient(1
 button.out:not(.x){--sh:#8a1a22;border-color:#ff7a82;background:linear-gradient(180deg,#f27f87 0%,#ec5560 50%,#b42631 100%);box-shadow:0 4px 0 var(--sh),0 8px 16px rgba(0,0,0,.5),0 0 14px rgba(255,100,110,.5),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -3px 6px rgba(90,0,10,.4)}
 button:not(.x):active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--sh),0 2px 5px rgba(0,0,0,.4),inset 0 2px 5px rgba(0,0,0,.35)}
 button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
+.appname{text-align:center;font-weight:800;font-size:1.05rem;color:#7fb8ff;letter-spacing:.5px;margin:2px 0 0;text-shadow:0 0 10px rgba(80,160,255,.55)}
+.credit{text-align:center;color:var(--mut);font-size:.8rem;padding:6px 0 22px}
+.credit b{color:#7fb8ff}
 </style>
 </head>
 <body>
 <div id="bgscene" aria-hidden="true"><img src="mill.jpg" alt=""></div>
 <main>
+<div class="appname">ثبت اضافه‌کاری</div>
 <h1 style="text-align:center">⏱ ثبت ورود، خروج و اضافه‌کاری</h1>
 <div class="bar" id="bar" hidden><b id="who"></b><span class="row"><button id="out2">خروج از حساب</button></span></div>
 
@@ -159,6 +163,7 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 </div>
 </div>
 </main>
+<div class="credit">ساخته‌شده توسط <b>بیژن خاوری</b></div>
 <div id="toast" hidden></div>
 <div id="dlg" hidden><div class="card" style="max-width:340px;width:100%;margin:0"><div id="dmsg" style="margin-bottom:10px"></div><input id="din" hidden inputmode="numeric" dir="ltr" style="margin-bottom:10px"><div class="row"><button class="pri" id="dok">تأیید</button><button id="dno">انصراف</button></div></div></div>
 
