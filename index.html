@@ -82,9 +82,10 @@ button.out:not(.x){--sh:#8a1a22;border-color:#ff7a82;background:linear-gradient(
 button:not(.x):active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--sh),0 2px 5px rgba(0,0,0,.4),inset 0 2px 5px rgba(0,0,0,.35)}
 button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 .appname{text-align:center;font-weight:800;font-size:1.05rem;color:#7fb8ff;letter-spacing:.5px;margin:2px 0 0;text-shadow:0 0 10px rgba(80,160,255,.55)}
-.credit{text-align:center;color:var(--mut);font-size:.8rem;padding:6px 0 22px}
+.credit{text-align:center;color:var(--mut);font-size:.8rem;padding:6px 0 100px}
 .credit b{color:#7fb8ff}
-.tabs{flex-wrap:nowrap;gap:6px;margin-bottom:14px}.tabs button{flex:1;padding:10px 2px;font-size:.82rem;white-space:nowrap}
+.tabs{flex-wrap:nowrap;gap:6px;margin:0;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;z-index:40;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--bd);box-shadow:0 -6px 16px rgba(0,0,0,.4)}.tabs button{flex:1;padding:10px 2px;font-size:.82rem;white-space:nowrap}
+#toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
 </style>
 </head>
 <body>
@@ -107,6 +108,7 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 
 
 <div id="app" hidden>
+<div class="card" id="bkbar" hidden style="border-color:#e5a000"><div id="bkmsg" style="margin-bottom:10px;font-weight:600"></div><div class="row"><button class="pri" id="bkgo">💾 دانلود فایل پشتیبان</button><button id="bksn">بعداً</button></div></div>
 <div class="row tabs" id="tabs"><button data-pg="home" class="on">🏠 ثبت</button><button data-pg="rec">📋 سوابق</button><button data-pg="rep">📊 گزارش</button><button data-pg="stat">📈 آمار</button></div>
 <div class="pg" id="pg-home">
 <div class="card clock">
@@ -165,6 +167,8 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
   <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
   <div style="overflow-x:auto"><table id="rtab"></table></div>
   <button class="pri" id="rimg" style="width:100%;margin-top:10px">ذخیره جدول به‌صورت عکس (گالری)</button>
+  <button id="rcsv" style="width:100%;margin-top:10px">📥 ذخیره اکسل (CSV)</button>
+  <div id="rcw" hidden style="margin-top:10px"><div class="mut">اگر دانلود نشد، متن زیر را کپی کن و در اکسل یا یادداشت بچسبان.</div><textarea id="rct" readonly rows="6" dir="ltr" style="width:100%;margin-top:6px;font-size:.75rem;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px"></textarea></div>
   <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
 </div>
 
@@ -172,6 +176,7 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 <div class="pg" id="pg-stat" hidden>
 <div class="card"><h2>📈 آمار</h2>
   <div class="stats" id="sstats" style="margin-bottom:12px"></div>
+  <div id="schart" style="margin-bottom:12px"></div>
   <div style="overflow-x:auto"><table id="stab"></table></div>
 </div>
 </div>
@@ -186,14 +191,14 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 function g2j(gy,gm,gd){var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],jy;if(gy>1600){jy=979;gy-=1600}else{jy=0;gy-=621}var g2=gm>2?gy+1:gy,days=365*gy+~~((g2+3)/4)-~~((g2+99)/100)+~~((g2+399)/400)-80+gd+gdm[gm-1];jy+=33*~~(days/12053);days%=12053;jy+=4*~~(days/1461);days%=1461;if(days>365){jy+=~~((days-1)/365);days=(days-1)%365}var jm,jd;if(days<186){jm=1+~~(days/31);jd=1+days%31}else{jm=7+~~((days-186)/30);jd=1+(days-186)%30}return[jy,jm,jd]}
 function j2g(jy,jm,jd){var gy;if(jy>979){gy=1600;jy-=979}else{gy=621}var days=365*jy+~~(jy/33)*8+~~((jy%33+3)/4)+78+jd+(jm<7?(jm-1)*31:(jm-7)*30+186);gy+=400*~~(days/146097);days%=146097;if(days>36524){gy+=100*~~(--days/36524);days%=36524;if(days>=365)days++}gy+=4*~~(days/1461);days%=1461;if(days>365){gy+=~~((days-1)/365);days=(days-1)%365}var gd=days+1,sa=[0,31,(gy%4==0&&gy%100!=0)||gy%400==0?29:28,31,30,31,30,31,31,30,31,30,31],gm;for(gm=0;gm<13;gm++){if(gd<=sa[gm])break;gd-=sa[gm]}return[gy,gm,gd]}
 //J-END
-var KEY='ot-tracker-v2',S={std:8,tz:'tehran',off:0,upd:0,nm:560,sh:'d',entries:[]};
+var KEY='ot-tracker-v2',S={std:8,tz:'tehran',off:0,upd:0,nm:560,sh:'d',bk:0,entries:[]},bkSnz=false;
 var MN=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 var WD=['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
 var $=function(i){return document.getElementById(i)};
 var pad=function(n){return String(n).padStart(2,'0')};
 var fa=function(n){return Number(n).toLocaleString('fa-IR')};
 var faS=function(s){return String(s).replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})};
-function norm(o){o=o||{};var T=/^\d\d:\d\d$/;return{std:8,tz:o.tz==='device'?'device':'tehran',off:+o.off||0,upd:+o.upd||0,nm:o.nm>=60&&o.nm<=1440?+o.nm:560,sh:o.sh==='n'?'n':'d',entries:Array.isArray(o.entries)?o.entries.filter(function(e){return e&&e.date&&(e.in||e.man!=null||e.sh==='l')}):[]}}
+function norm(o){o=o||{};var T=/^\d\d:\d\d$/;return{std:8,tz:o.tz==='device'?'device':'tehran',off:+o.off||0,upd:+o.upd||0,bk:+o.bk||0,nm:o.nm>=60&&o.nm<=1440?+o.nm:560,sh:o.sh==='n'?'n':'d',entries:Array.isArray(o.entries)?o.entries.filter(function(e){return e&&e.date&&(e.in||e.man!=null||e.sh==='l')}):[]}}
 function loadLocal(){S=norm({});try{var r0=localStorage.getItem(KEY);if(r0)S=norm(JSON.parse(r0))}catch(e){}}
 var ref=null,pushT=null,editId=null;
 function save(){S.upd=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
@@ -232,6 +237,7 @@ function setPick(iso){var j=iso2j(iso);addYear(j[0]);$('py').value=j[0];$('pm').
 function getPick(){return j2iso(+$('py').value,+$('pm').value,+$('pd').value)}
 
 function render(){
+  var oldBk=!S.bk||Date.now()-S.bk>7*864e5;$('bkbar').hidden=!(S.entries.length&&oldBk&&!bkSnz);$('bkmsg').textContent=S.bk?'⚠️ بیش از یک هفته از آخرین پشتیبان گذشته است.':'⚠️ هنوز از اطلاعاتت پشتیبان نگرفته‌ای.';
   var o=openEntry(),cur=jmk(todayISO());
   $('bin').disabled=!!o;$('bout').disabled=!o;$('nm').value=pad(Math.floor(S.nm/60))+':'+pad(S.nm%60);$('tz').value=S.tz;$('shd').className=S.sh==='d'?'on':'';$('shn').className=S.sh==='n'?'on':'';
   $('offtx').textContent=S.off?'اختلاف اعمال‌شده: '+fa(S.off)+' دقیقه':'اختلاف اعمال‌شده: ندارد';
@@ -259,6 +265,12 @@ function renderStats(){var M={},tw=0,tot=0,td=0;
   keys.forEach(function(k){var m=M[k];m.n=Object.keys(m.days).length;T.d+=m.n;T.w+=m.w;T.o+=m.o;T.ld+=m.ld;T.lh+=m.lh});
   var lv=function(d,h){return d||h?(d?fa(d)+' روز':'')+(d&&h?' + ':'')+(h?hm(h):''):'—'};
   $('sstats').innerHTML='<div class="stat hl"><b>'+fmt(T.o)+'</b><span>کل اضافه‌کاری</span></div><div class="stat"><b>'+fmt(T.w)+'</b><span>کل کارکرد</span></div><div class="stat"><b>'+fa(T.d)+' روز</b><span>روزهای کاری</span></div><div class="stat"><b>'+(T.d?fmt(T.o/T.d):'—')+'</b><span>میانگین اضافه‌کاری در روز</span></div>';
+  var asc=keys.slice(0,6).reverse();
+  if(asc.length){var mx=Math.max.apply(null,asc.map(function(k){return M[k].o}))||1,W=320,H=175,bw=34,gp=(W-asc.length*bw)/(asc.length+1),g='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block" role="img" aria-label="نمودار اضافه‌کاری ماهانه"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0ff"/><stop offset="1" stop-color="#1558e0"/></linearGradient></defs>';
+    g+='<line x1="8" x2="'+(W-8)+'" y1="'+(H-40)+'" y2="'+(H-40)+'" style="stroke:var(--bd)" stroke-width="1"/>';
+    asc.forEach(function(k,ix){var m=M[k],h=Math.round(m.o/mx*100),x=W-(gp+bw)*(ix+1),y=H-40-h;
+      g+='<rect x="'+x+'" y="'+y+'" width="'+bw+'" height="'+Math.max(h,2)+'" rx="8" fill="url(#cg)"/><text x="'+(x+bw/2)+'" y="'+(y-6)+'" text-anchor="middle" font-size="11" style="fill:var(--tx)">'+hm(m.o)+'</text><text x="'+(x+bw/2)+'" y="'+(H-22)+'" text-anchor="middle" font-size="11" style="fill:var(--mut)">'+MN[m.m-1]+'</text>'});
+    $('schart').innerHTML='<div class="mut" style="margin-bottom:6px">اضافه‌کاری هر ماه (ساعت:دقیقه)</div>'+g+'</svg>'}else $('schart').innerHTML='';
   if(!keys.length){$('stab').innerHTML='<tbody><tr><td class="empty">هنوز چیزی ثبت نشده است.</td></tr></tbody>';return}
   $('stab').innerHTML='<thead><tr><th>ماه</th><th>روز کاری</th><th>کارکرد</th><th>اضافه‌کاری</th><th>مرخصی</th></tr></thead><tbody>'
    +keys.map(function(k){var m=M[k];return '<tr><td>'+MN[m.m-1]+' '+faS(m.y)+'</td><td>'+fa(m.n)+'</td><td>'+hm(m.w)+'</td><td>'+hm(m.o)+'</td><td>'+lv(m.ld,m.lh)+'</td></tr>'}).join('')
@@ -306,12 +318,16 @@ function startEdit(e){showPg('home');editId=e.id;setPick(e.date);$('mi').value=e
 function delEntries(f){var ids=S.entries.filter(f).map(function(x){return x.id});S.entries=S.entries.filter(function(x){return !f(x)});
   if(editId&&ids.indexOf(editId)>=0)resetForm();save();render();tick();toast('حذف شد ✓')}
 
-$('exp').onclick=function(){
-  if(typeof claude==='undefined'){toast('این قابلیت فقط در صفحه منتشرشده کار می‌کند.');return}
-  claude.use('downloads').then(function(dl){
-    if(!dl){toast('دانلود فایل در این نمایش در دسترس نیست.');return}
-    var d=new Date(),n='overtime-backup-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.json';
-    return dl.save({filename:n,data:JSON.stringify(S,null,1)})}).catch(function(){})};
+function dlFile(name,text,mime,bom){try{var b=new Blob([(bom?'\ufeff':'')+text],{type:mime||'text/plain'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){try{URL.revokeObjectURL(a.href);a.remove()}catch(e){}},1500)}catch(e){}}
+$('exp').onclick=function(){S.bk=Date.now();save();render();var d=new Date(),n='overtime-backup-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.json',j=JSON.stringify(S,null,1);
+  if(typeof claude!=='undefined'){claude.use('downloads').then(function(dl){if(dl)return dl.save({filename:n,data:j})}).catch(function(){})}else dlFile(n,j,'application/json',false);
+  toast('فایل پشتیبان ساخته شد ✓')};
+$('bkgo').onclick=function(){$('exp').onclick()};
+$('bksn').onclick=function(){bkSnz=true;$('bkbar').hidden=true};
+$('rcsv').onclick=function(){var P=period(),R=rowsFor(P.days),q=function(c){return '"'+dig(c).replace(/"/g,'""')+'"'},
+  L=[['روز','شیفت','ورود','خروج','مرخصی','اضافه‌کاری']].concat(R.rows).concat([['جمع اضافه‌کاری ('+R.n+' روز)','','','','',hm(R.ot)]]),
+  t=L.map(function(r){return r.map(q).join(',')}).join('\r\n');
+  dlFile('report-'+(rmode==='w'?'week':'month')+'.csv',t,'text/csv',true);$('rct').value=t;$('rcw').hidden=false;toast('فایل CSV ساخته شد ✓')};
 $('impb').onclick=function(){$('impf').click()};
 $('impf').onchange=function(){var f=this.files[0];this.value='';if(!f)return;var fr=new FileReader();
   fr.onload=function(){try{var o=JSON.parse(fr.result);if(!o||!Array.isArray(o.entries))throw 0;
