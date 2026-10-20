@@ -84,6 +84,7 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 .appname{text-align:center;font-weight:800;font-size:1.05rem;color:#7fb8ff;letter-spacing:.5px;margin:2px 0 0;text-shadow:0 0 10px rgba(80,160,255,.55)}
 .credit{text-align:center;color:var(--mut);font-size:.8rem;padding:6px 0 22px}
 .credit b{color:#7fb8ff}
+.tabs{flex-wrap:nowrap;gap:6px;margin-bottom:14px}.tabs button{flex:1;padding:10px 2px;font-size:.82rem;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -106,6 +107,8 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
 
 
 <div id="app" hidden>
+<div class="row tabs" id="tabs"><button data-pg="home" class="on">🏠 ثبت</button><button data-pg="rec">📋 سوابق</button><button data-pg="rep">📊 گزارش</button><button data-pg="stat">📈 آمار</button></div>
+<div class="pg" id="pg-home">
 <div class="card clock">
   <div class="neonbox mv" aria-hidden="true"><img class="ph" src="mill.jpg" alt=""><i class="hot" style="left:9%;top:73%;animation-delay:0.00s"></i><i class="hot" style="left:27%;top:71%;animation-delay:0.23s"></i><i class="hot" style="left:46%;top:74%;animation-delay:0.46s"></i><i class="hot" style="left:61%;top:72%;animation-delay:0.69s"></i><i class="hot" style="left:78%;top:71%;animation-delay:0.92s"></i><i class="hot" style="left:93%;top:74%;animation-delay:1.15s"></i><i class="hot" style="left:7%;top:90%;animation-delay:1.38s"></i><i class="hot" style="left:40%;top:93%;animation-delay:1.61s"></i><i class="hot" style="left:62%;top:93%;animation-delay:1.84s"></i><i class="hot" style="left:84%;top:94%;animation-delay:2.07s"></i><i class="steam" style="left:14%;top:60%;animation-delay:0.0s"></i><i class="steam" style="left:40%;top:56%;animation-delay:1.2s"></i><i class="steam" style="left:70%;top:60%;animation-delay:2.4s"></i><i class="steam" style="left:92%;top:54%;animation-delay:3.6s"></i><i class="spk" style="left:12%;top:70%;--dx:-8px;animation-delay:0.00s"></i><i class="spk" style="left:30%;top:69%;--dx:-4px;animation-delay:0.37s"></i><i class="spk" style="left:48%;top:72%;--dx:0px;animation-delay:0.74s"></i><i class="spk" style="left:63%;top:70%;--dx:4px;animation-delay:1.11s"></i><i class="spk" style="left:80%;top:69%;--dx:8px;animation-delay:1.48s"></i><i class="spk" style="left:94%;top:72%;--dx:12px;animation-delay:1.85s"></i></div>
   <div class="time" id="time">--:--:--</div>
@@ -134,16 +137,6 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
   <div class="row"><button class="pri" id="madd">افزودن</button><button id="mcancel" hidden>انصراف</button></div>
 </div>
 
-<div class="card"><h2>سوابق</h2><div id="list"></div></div>
-
-<div class="card"><h2>گزارش جدولی</h2>
-  <div class="row"><button id="rw" style="flex:1">هفتگی</button><button id="rm" style="flex:1">ماهانه</button></div>
-  <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
-  <div style="overflow-x:auto"><table id="rtab"></table></div>
-  <button class="pri" id="rimg" style="width:100%;margin-top:10px">ذخیره جدول به‌صورت عکس (گالری)</button>
-  <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
-</div>
-
 <div class="card">
   <h2>تنظیمات ساعت</h2>
   <div class="g2">
@@ -160,6 +153,27 @@ button:not(.x):disabled{box-shadow:none;filter:grayscale(.6)}
   <div class="mut" id="cloud" style="margin-bottom:10px">پشتیبان ابری: در حال بررسی…</div>
   <div class="row"><button id="exp">دانلود فایل پشتیبان</button><button id="impb">بازیابی از فایل</button></div>
   <input type="file" id="impf" accept=".json,application/json" hidden>
+</div>
+</div>
+<div class="pg" id="pg-rec" hidden>
+<div class="card"><h2>سوابق</h2><div id="list"></div></div>
+
+</div>
+<div class="pg" id="pg-rep" hidden>
+<div class="card"><h2>گزارش جدولی</h2>
+  <div class="row"><button id="rw" style="flex:1">هفتگی</button><button id="rm" style="flex:1">ماهانه</button></div>
+  <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
+  <div style="overflow-x:auto"><table id="rtab"></table></div>
+  <button class="pri" id="rimg" style="width:100%;margin-top:10px">ذخیره جدول به‌صورت عکس (گالری)</button>
+  <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
+</div>
+
+</div>
+<div class="pg" id="pg-stat" hidden>
+<div class="card"><h2>📈 آمار</h2>
+  <div class="stats" id="sstats" style="margin-bottom:12px"></div>
+  <div style="overflow-x:auto"><table id="stab"></table></div>
+</div>
 </div>
 </div>
 </main>
@@ -222,7 +236,7 @@ function render(){
   $('bin').disabled=!!o;$('bout').disabled=!o;$('nm').value=pad(Math.floor(S.nm/60))+':'+pad(S.nm%60);$('tz').value=S.tz;$('shd').className=S.sh==='d'?'on':'';$('shn').className=S.sh==='n'?'on':'';
   $('offtx').textContent=S.off?'اختلاف اعمال‌شده: '+fa(S.off)+' دقیقه':'اختلاف اعمال‌شده: ندارد';
   var mot=0,mw=0,aot=0,days={},lvd=0,lvh=0;
-  S.entries.forEach(function(e){if(jmk(e.date)===cur){if(e.sh==='l')lvd++;else lvh+=e.lv||0}if(!done(e))return;var w=worked(e)||0,t=ot(e);aot+=t;days[e.date]=1;if(jmk(e.date)===cur){mot+=t;mw+=w}});renderReport();
+  S.entries.forEach(function(e){if(jmk(e.date)===cur){if(e.sh==='l')lvd++;else lvh+=e.lv||0}if(!done(e))return;var w=worked(e)||0,t=ot(e);aot+=t;days[e.date]=1;if(jmk(e.date)===cur){mot+=t;mw+=w}});renderReport();if(!$('pg-stat').hidden)renderStats();
   $('mot').textContent=fmt(mot);$('mw').textContent=fmt(mw);$('aot').textContent=fmt(aot);$('cnt').textContent=fa(lvd)+' روز'+(lvh?' + '+hm(lvh):'');
   var L=$('list');
   if(!S.entries.length){L.innerHTML='<div class="empty">هنوز چیزی ثبت نشده است.</div>';return}
@@ -232,6 +246,23 @@ function render(){
     +(done(e)?'<span class="badge">'+(x>0?fmt(x)+' اضافه':'بدون اضافه')+(e.man!=null?' (دستی)':'')+'</span>':'')
     +'<button class="x" data-ed="'+e.id+'" aria-label="ویرایش">✎</button><button class="x" data-del="'+e.id+'" aria-label="حذف">✕</button></div>'}).join('');
 }
+
+function showPg(p){['home','rec','rep','stat'].forEach(function(k){$('pg-'+k).hidden=k!==p});
+  [].forEach.call($('tabs').children,function(b){b.className=b.dataset.pg===p?'on':''});
+  if(p==='stat')renderStats();try{window.scrollTo(0,0)}catch(x){}}
+$('tabs').onclick=function(ev){var b=ev.target.closest('button');if(b)showPg(b.dataset.pg)};
+function renderStats(){var M={},tw=0,tot=0,td=0;
+  S.entries.forEach(function(e){var j=iso2j(e.date),k=j[0]*100+j[1],m=M[k]||(M[k]={y:j[0],m:j[1],days:{},w:0,o:0,ld:0,lh:0});
+    if(e.sh==='l'){m.ld++;return}
+    m.lh+=e.lv||0;if(!done(e))return;m.days[e.date]=1;m.w+=worked(e)||0;m.o+=ot(e)});
+  var keys=Object.keys(M).map(Number).sort(function(a,b){return b-a}),T={d:0,w:0,o:0,ld:0,lh:0};
+  keys.forEach(function(k){var m=M[k];m.n=Object.keys(m.days).length;T.d+=m.n;T.w+=m.w;T.o+=m.o;T.ld+=m.ld;T.lh+=m.lh});
+  var lv=function(d,h){return d||h?(d?fa(d)+' روز':'')+(d&&h?' + ':'')+(h?hm(h):''):'—'};
+  $('sstats').innerHTML='<div class="stat hl"><b>'+fmt(T.o)+'</b><span>کل اضافه‌کاری</span></div><div class="stat"><b>'+fmt(T.w)+'</b><span>کل کارکرد</span></div><div class="stat"><b>'+fa(T.d)+' روز</b><span>روزهای کاری</span></div><div class="stat"><b>'+(T.d?fmt(T.o/T.d):'—')+'</b><span>میانگین اضافه‌کاری در روز</span></div>';
+  if(!keys.length){$('stab').innerHTML='<tbody><tr><td class="empty">هنوز چیزی ثبت نشده است.</td></tr></tbody>';return}
+  $('stab').innerHTML='<thead><tr><th>ماه</th><th>روز کاری</th><th>کارکرد</th><th>اضافه‌کاری</th><th>مرخصی</th></tr></thead><tbody>'
+   +keys.map(function(k){var m=M[k];return '<tr><td>'+MN[m.m-1]+' '+faS(m.y)+'</td><td>'+fa(m.n)+'</td><td>'+hm(m.w)+'</td><td>'+hm(m.o)+'</td><td>'+lv(m.ld,m.lh)+'</td></tr>'}).join('')
+   +'</tbody><tfoot><tr><td>جمع</td><td>'+fa(T.d)+'</td><td>'+hm(T.w)+'</td><td>'+hm(T.o)+'</td><td>'+lv(T.ld,T.lh)+'</td></tr></tfoot>'}
 function tick(){
   var w=wall(),iso=w.y+'-'+pad(w.m)+'-'+pad(w.d);
   $('time').textContent=faS(pad(w.h)+':'+pad(w.mi)+':'+pad(w.s));
@@ -268,7 +299,7 @@ $('list').onclick=function(ev){
   var ed=ev.target.closest('[data-ed]'),dl=ev.target.closest('[data-del]');
   if(ed){var e=S.entries.find(function(x){return String(x.id)===ed.dataset.ed});if(e)startEdit(e)}
   if(dl){var did=dl.dataset.del;dlg('این مورد حذف شود؟',false,function(){delEntries(function(x){return String(x.id)===did})})}};
-function startEdit(e){editId=e.id;setPick(e.date);$('mi').value=e.in||'';$('mo').value=e.out||'';$('msh').value=['n','l','h'].indexOf(e.sh)>=0?e.sh:'d';
+function startEdit(e){showPg('home');editId=e.id;setPick(e.date);$('mi').value=e.in||'';$('mo').value=e.out||'';$('msh').value=['n','l','h'].indexOf(e.sh)>=0?e.sh:'d';
   $('mlv').value=e.lv?pad(Math.floor(e.lv/60))+':'+pad(e.lv%60):'';$('mman').value=e.man!=null?pad(Math.floor(e.man/60))+':'+pad(e.man%60):'';
   $('ftitle').textContent='ویرایش مورد انتخاب‌شده';$('madd').textContent='ذخیره تغییرات';$('mcancel').hidden=false;
   try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}}
@@ -344,7 +375,7 @@ $('rtab').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;
   var iso=b.dataset.red||b.dataset.rdel||b.dataset.radd,es=S.entries.filter(function(e){return e.date===iso}).sort(function(a,c){return (a.in||'').localeCompare(c.in||'')});
   if(b.dataset.red&&es.length){startEdit(es[0]);if(es.length>1)toast('این روز چند ثبت دارد؛ اولی باز شد. بقیه را از «سوابق» ویرایش کن.')}
   if(b.dataset.rdel&&es.length)dlg('همه ثبت‌های این روز ('+fa(es.length)+' مورد) حذف شود؟',false,function(){delEntries(function(e){return e.date===iso})});
-  if(b.dataset.radd){resetForm();setPick(iso);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}};
+  if(b.dataset.radd){showPg('home');resetForm();setPick(iso);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}};
 $('rimg').onclick=function(){var P=period(),R=rowsFor(P.days),W=720,rh=38,H=150+(R.rows.length+1)*rh,c=document.createElement('canvas'),x,F='Vazirmatn,Tahoma,sans-serif',cx=[605,475,393,298,200,85];
   c.width=W*2;c.height=H*2;x=c.getContext('2d');x.scale(2,2);
   function go(){x.fillStyle='#fff';x.fillRect(0,0,W,H);x.direction='rtl';x.textBaseline='middle';
