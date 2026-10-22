@@ -449,7 +449,7 @@ $('rcsv').onclick=function(){var P=period(),R=rowsFor(P.days),q=function(c){retu
   dlFile('report-'+(rmode==='w'?'week':'month')+'.csv',t,'text/csv',true);$('rct').value=t;$('rcw').hidden=false;toast('فایل CSV ساخته شد ✓')};
 var DB=null,ME=null,ISADM=false,reg=false,LOCAL=false,SB=null,UID=null;
 // ===== تنظیم ذخیره ابری (Supabase): این دو مقدار را از داشبورد Supabase بگذار =====
-var SB_URL='https://itlmylmmmnkfyfklqxzh.supabase.co',SB_KEY='sb_publishable_VPp9XcuJj7xxKOu3I5TDMQ_WNTNo9dC';
+var SB_URL='',SB_KEY='';
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';'})}
 function dig(s){return String(s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776}).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632})}
 function aerr(t){$('aerr').textContent=t||''}
@@ -469,15 +469,15 @@ $('out2').onclick=logout;
 function cloudRef(uid){return{
   get:function(){return SB.from('logs').select('json,upd').eq('uid',uid).maybeSingle().then(function(r){if(r.error)throw r.error;var d=r.data;return{exists:!!d,data:function(){return d}}})},
   set:function(o){return SB.from('logs').upsert({uid:uid,json:o.json,upd:o.upd}).then(function(r){if(r.error)throw r.error})}}}
-function enterUser(user){UID=user.id;var u=String(user.email||'').split('@')[0].replace(/^ot\./,'');enter(u,(user.user_metadata&&user.user_metadata.name)||u,'')}
-function cloudAuth(u,p,nm){var email='ot.'+u+'@gmail.com';
+function enterUser(user){UID=user.id;var u=String(user.email||'').split('@')[0];enter(u,(user.user_metadata&&user.user_metadata.name)||u,'')}
+function cloudAuth(u,p,nm){var email=u+'@ot.bijan.app';
   hash(u,p).then(function(h){var pw='ot-'+h;
     if(reg)return SB.auth.signUp({email:email,password:pw,options:{data:{name:nm}}}).then(function(r){
       if(r.error)return aerr(/already|registered|exists/i.test(r.error.message)?'این نام کاربری قبلاً گرفته شده است.':'خطا: '+r.error.message);
       if(!r.data||!r.data.session)return aerr('در Supabase گزینه تأیید ایمیل روشن است؛ خاموشش کن.');
       enterUser(r.data.user)});
     return SB.auth.signInWithPassword({email:email,password:pw}).then(function(r){
-      if(r.error){var m=String(r.error.message||'');return aerr(/fetch|network/i.test(m)?'خطا در ارتباط؛ دوباره تلاش کن.':/invalid login|credentials/i.test(m)?'نام کاربری یا رمز اشتباه است.':'خطا: '+m)}
+      if(r.error)return aerr(/fetch|network/i.test(r.error.message)?'خطا در ارتباط؛ دوباره تلاش کن.':'نام کاربری یا رمز اشتباه است.');
       enterUser(r.data.user)})
   }).catch(function(){aerr('خطا در ارتباط؛ دوباره تلاش کن.')})}
 function pull(){if(!ref||LOCAL)return;ref.get().then(function(s){var x=s.exists?s.data():null;
