@@ -38,7 +38,7 @@ button:disabled{opacity:.35;cursor:not-allowed}
 .stat b{display:block;font-size:1.05rem}.stat span{font-size:.8rem;color:var(--mut)}
 .stat.hl{background:var(--ot);color:var(--ott)}.stat.hl span{color:inherit;opacity:.8}
 label{font-size:.8rem;color:var(--mut);display:block;margin-bottom:2px}
-input,select{font:inherit;width:100%;padding:9px 8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}
+input,select{font:inherit;width:100%;padding:7px 8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}
 .g3{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px;margin-bottom:10px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .item{display:flex;align-items:center;gap:6px;padding:10px 0;border-top:1px solid var(--bd)}
@@ -56,7 +56,7 @@ input,select{font:inherit;width:100%;padding:9px 8px;border:1px solid var(--bd);
 table{width:100%;border-collapse:collapse;font-size:.82rem}th,td{border-bottom:1px solid var(--bd);padding:6px 3px;text-align:center}th{color:var(--mut);font-weight:600}tfoot td{font-weight:800;background:var(--ot);color:var(--ott)}
 [hidden]{display:none!important}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.9rem;z-index:60;max-width:90%;text-align:center}
-#dlg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+#dlg,#shs{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
 #bgscene{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none;overflow:hidden}
 #bgscene svg{width:100%;height:100%}
 main{position:relative;z-index:1}
@@ -66,7 +66,7 @@ main{position:relative;z-index:1}
 .mv{position:relative;overflow:hidden;border-radius:10px;height:92px;background:#000;padding:0}
 .mv .ph{display:block;width:100%;height:100%;object-fit:cover}
 #bgscene img{width:100%;height:100%;object-fit:cover}
-button{min-height:44px;border-radius:999px;background:#1f2533;color:var(--tx);border:1px solid var(--bd);transition:transform .15s,background-color .15s,border-color .15s,opacity .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
+button{min-height:38px;padding:7px 14px;font-size:.9rem;border-radius:999px;background:#1f2533;color:var(--tx);border:1px solid var(--bd);transition:transform .15s,background-color .15s,border-color .15s,opacity .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
 button:not(.x):not(.big):not(.pri):not(.on):not(:disabled):hover{background:#262d3e;border-color:#3a4358}
 button:not(.x):not(.big):active:not(:disabled){transform:scale(.97)}
 button:disabled{opacity:.4;cursor:not-allowed}
@@ -98,9 +98,9 @@ button.pri:not(.x):not(:disabled):hover{background:#4a7bf0}
 
 /* ===== v3: layout, feedback, motion ===== */
 button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #7fb8ff;outline-offset:2px}
-.x{min-width:40px;min-height:40px;border-radius:12px}
+.x{min-width:34px;min-height:34px;padding:4px 6px;border-radius:10px}
 .row.seg{flex-wrap:nowrap}.row.seg button{flex:1;padding-inline:6px;font-size:.88rem;white-space:nowrap}
-.big{width:100%;flex:none;min-height:64px;font-size:1.25rem;font-weight:800;border:0;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);transition:transform .12s,box-shadow .12s}
+.big{display:block;margin:0 auto;width:auto;min-width:200px;max-width:100%;flex:none;min-height:54px;padding:0 40px;font-size:1.1rem;font-weight:800;border:0;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);transition:transform .12s,box-shadow .12s}
 .big.in{background:linear-gradient(180deg,#34c68a,#16895d);box-shadow:0 5px 0 #0a5a3b,0 10px 18px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.3)}
 .big.out{background:linear-gradient(180deg,#f0636d,#c02a36);box-shadow:0 5px 0 #7d1119,0 10px 18px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.3)}
 .big.in:active{transform:translateY(4px);box-shadow:0 1px 0 #0a5a3b,0 3px 8px rgba(0,0,0,.4)}
@@ -127,10 +127,20 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
 #toast:not([hidden]){animation:tin .18s ease}
 @keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translateX(-50%)}}
 #toast.ok{border-right:5px solid #2fb67c}#toast.err{border-right:5px solid #f0636d}
-#dlg:not([hidden]){animation:fin .15s ease}
+#dlg:not([hidden]),#shs:not([hidden]){animation:fin .15s ease}
 @keyframes fin{from{opacity:0}to{opacity:1}}
 .spin{display:inline-block;width:18px;height:18px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:sp .8s linear infinite;vertical-align:middle;margin-left:8px}
 @keyframes sp{to{transform:rotate(360deg)}}
+button.mrow:not(.x){display:flex;align-items:center;justify-content:space-between;width:100%;min-height:54px;padding:0 16px;border-radius:0;background:transparent;border:0;border-top:1px solid var(--bd);font-size:.95rem;font-weight:600;color:var(--tx);text-align:right}
+button.mrow:first-child{border-top:0}
+.mrow span{display:flex;align-items:center}
+.mrow i{font-style:normal;margin-left:12px;font-size:1.2rem}
+.mrow .chev{font-style:normal;color:var(--mut);font-size:1.4rem;margin:0}
+button.mrow:not(.x):not(.big):not(.pri):not(.on):not(:disabled):hover{background:rgba(255,255,255,.04);border-color:var(--bd)}
+button.mrow:not(.x):not(.big):active:not(:disabled){background:rgba(255,255,255,.07);transform:none}
+#out2{color:var(--mut)}
+.back{background:none;border:0;color:var(--mut);padding:4px 2px;min-height:32px;margin-bottom:6px;font-size:.95rem}
+.g4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media (min-width:720px){main{max-width:680px}.tabs{max-width:680px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
@@ -174,11 +184,7 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
   <div class="stat"><b id="mw">۰</b><span>کارکرد این دوره</span></div>
   <div class="stat hl"><b id="mot">۰</b><span>اضافه‌کاری این دوره</span></div>
 </div>
-<details class="more"><summary>جزئیات بیشتر</summary><div class="stats">
-  <div class="stat"><b id="aot">۰</b><span>کل اضافه‌کاری</span></div>
-  <div class="stat"><b id="cnt">۰</b><span>مرخصی این دوره</span></div>
-  <div class="stat hl" id="mmw" hidden style="grid-column:1/-1"><b id="mmoney">—</b><span>مبلغ تقریبی اضافه‌کاری این دوره حقوق</span></div>
-</div></details></div>
+</div>
 </div>
 
 <div class="pg" id="pg-sal" hidden>
@@ -187,13 +193,6 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
   <div class="stats" id="sbox"></div>
   <div class="mut" style="margin-top:8px">مزایا (مثل حق مسکن و بن) در این برآورد نیست. درصد بیمه و مالیات را مطابق فیش حقوقی خودت وارد کن؛ مبلغ‌ها فقط تقریبی‌اند.</div>
 </div>
-<div class="card"><h2>🧾 مقایسه با فیش حقوقی</h2>
-  <div class="mut" id="fshl" style="margin-bottom:8px"></div>
-  <label>اضافه‌کاری نوشته‌شده در فیش (مثل 85:30 یا 85.5 ساعت)</label>
-  <input id="fsh" dir="ltr" inputmode="text" placeholder="مثلاً 85:30" style="margin-bottom:10px">
-  <div id="fres"></div>
-</div>
-<div class="card"><h2>📋 سوابق این دوره</h2><div id="list"></div></div>
 </div>
 
 <div class="pg" id="pg-rep" hidden>
@@ -205,15 +204,18 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
   <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
   <div style="overflow-x:auto"><table id="rtab"></table></div>
   <div class="mut" id="rmoney" style="margin-top:8px"></div>
-  <div class="row" style="margin-top:10px"><button id="rpdf" style="flex:1">📄 ذخیره PDF</button><button class="pri" id="rsend" style="flex:1">📤 ارسال (واتساپ/تلگرام)</button></div>
-  <button class="pri" id="rimg" style="width:100%;margin-top:10px">ذخیره جدول به‌صورت عکس (گالری)</button>
-  <button id="rcsv" style="width:100%;margin-top:10px">📥 ذخیره اکسل (CSV)</button>
-  <div id="rcw" hidden style="margin-top:10px"><div class="mut">اگر دانلود نشد، متن زیر را کپی کن و در اکسل یا یادداشت بچسبان.</div><textarea id="rct" readonly rows="6" dir="ltr" style="width:100%;margin-top:6px;font-size:.75rem;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px"></textarea></div>
-  <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
+  
 </div>
 </div>
 <div class="pg" id="pg-stat" hidden>
 <div class="card"><h2>🔎 آمار بازه دلخواه</h2><label>از تاریخ</label><div class="g3"><select id="sfy"></select><select id="sfm"></select><select id="sfd"></select></div><label>تا تاریخ</label><div class="g3"><select id="sty"></select><select id="stm"></select><select id="std"></select></div><div class="mut" id="crtitle" style="margin:2px 0 8px"></div><div class="stats" id="cstats" style="margin-bottom:10px"></div><button id="scrst" style="width:100%">بازنشانی به دوره حقوق فعلی</button><div class="mut" style="margin-top:6px">مثلاً از ۲۵ مهر تا ۲۵ آبان. اگر شرکت بازه را عوض کرد، همین‌جا تاریخ‌ها را تغییر بده.</div></div>
+<div class="card"><h2>📤 خروجی و اشتراک‌گذاری</h2>
+  <div class="mut" style="margin-bottom:8px">خروجی برای همان بازه‌ی بالا ساخته می‌شود.</div>
+  <div class="g4"><button id="rpdf">📄 ذخیره PDF</button><button id="rcsv">📥 انتقال به اکسل</button><button id="rimg">🖼 ذخیره عکس</button><button class="pri" id="ssh">📤 اشتراک‌گذاری</button></div>
+  <div id="rcw" hidden style="margin-top:10px"><div class="mut">اگر دانلود نشد، متن زیر را کپی کن و در اکسل یا یادداشت بچسبان.</div><textarea id="rct" readonly rows="6" dir="ltr" style="width:100%;margin-top:6px;font-size:.75rem;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px"></textarea></div>
+  
+  <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
+</div>
 <div class="card"><h2>📈 آمار</h2>
   <div class="stats" id="sstats" style="margin-bottom:12px"></div>
   <div id="schart" style="margin-bottom:12px"></div>
@@ -234,6 +236,21 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
 </div>
 
 <div class="pg" id="pg-more" hidden>
+<div id="mp-menu">
+<div class="bar" id="bar" hidden style="margin:0 0 10px"><b id="who"></b></div>
+<div class="card" style="padding:0;overflow:hidden">
+<button class="mrow" data-m="manual"><span><i>✍️</i>ثبت دستی</span><em class="chev">‹</em></button>
+<button class="mrow" data-m="time"><span><i>🕒</i>تنظیمات ساعت</span><em class="chev">‹</em></button>
+<button class="mrow" data-m="sal"><span><i>📈</i>تنظیمات حقوق</span><em class="chev">‹</em></button>
+<button class="mrow" data-m="fish"><span><i>🧾</i>مقایسه با فیش حقوقی</span><em class="chev">‹</em></button>
+<button class="mrow" id="exp"><span><i>💾</i>ذخیره نسخه کپی</span></button>
+<button class="mrow" id="impb"><span><i>📂</i>بازیابی</span></button>
+<button class="mrow" id="out2"><span><i>🚪</i>خروج از حساب</span></button>
+</div>
+<input type="file" id="impf" accept=".json,application/json" hidden>
+<div class="mut" id="cloud" style="margin:10px 4px"></div>
+</div>
+<div id="mp-manual" hidden><button class="back" data-back>‹ برگشت</button>
 <div class="card">
   <h2 id="ftitle">ثبت دستی</h2>
   <label>تاریخ شمسی</label>
@@ -245,6 +262,8 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
   <div class="row"><button class="pri" id="madd">افزودن</button><button id="mcancel" hidden>انصراف</button></div>
 </div>
 
+</div>
+<div id="mp-time" hidden><button class="back" data-back>‹ برگشت</button>
 <div class="card">
   <h2>تنظیمات ساعت</h2>
   <div class="g2">
@@ -255,6 +274,8 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
   <div class="row"><input type="time" id="sync" style="flex:1"><button id="dosync">هماهنگ کن</button><button id="rsync">بازنشانی</button></div>
   <div class="mut" id="offtx" style="margin-top:6px"></div>
 </div>
+</div>
+<div id="mp-sal" hidden><button class="back" data-back>‹ برگشت</button>
 <div class="card">
   <h2>💰 تنظیمات حقوق</h2>
   <div class="g2"><div><label>پایه حقوق ماهانه (تومان)</label><input id="sal" inputmode="numeric" dir="ltr" placeholder="مثلاً 12,000,000"></div><div><label>ضریب اضافه‌کاری</label><input id="mul" inputmode="decimal" dir="ltr"></div></div>
@@ -273,18 +294,21 @@ details.more summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:8p
   <div class="stats" style="margin-top:4px"><div class="stat"><b id="rate1">—</b><span>نرخ هر ساعت عادی</span></div><div class="stat hl"><b id="rate2">—</b><span>نرخ هر ساعت اضافه‌کاری</span></div></div>
   <details class="more"><summary>ℹ️ راهنما</summary><div class="mut" style="margin-top:4px">نرخ ساعتی = پایه حقوق ÷ ساعت مبنا (پیش‌فرض ۲۲۰ یعنی ۳۰ روز × ۷٫۳۳ ساعت). نرخ اضافه‌کاری = نرخ ساعتی × ضریب (پیش‌فرض ۱٫۴). این سه عدد را با قرارداد خودت هماهنگ کن؛ مبلغ‌ها فقط تقریبی‌اند.</div></details>
 </div>
-<div class="card">
-  <h2>نسخه کپی</h2>
-  <div class="mut" id="cloud" style="margin-bottom:8px"></div><div class="mut" style="margin-bottom:8px">اگر ذخیره ابری فعال باشد اطلاعات روی همه گوشی‌ها هماهنگ می‌شود؛ باز هم گاهی یک نسخه کپی ذخیره کن.</div>
-  <div class="row"><button id="exp" style="flex:1">💾 ذخیره نسخه کپی</button><button id="impb" style="flex:1">📂 بازیابی</button></div>
-  <input type="file" id="impf" accept=".json,application/json" hidden>
 </div>
-<div class="card"><h2>👤 حساب کاربری</h2><div class="bar" id="bar" hidden style="margin:0"><b id="who"></b><span class="row"><button id="out2">خروج از حساب</button></span></div></div>
+<div id="mp-fish" hidden><button class="back" data-back>‹ برگشت</button>
+<div class="card"><h2>🧾 مقایسه با فیش حقوقی</h2>
+  <div class="mut" id="fshl" style="margin-bottom:8px"></div>
+  <label>اضافه‌کاری نوشته‌شده در فیش (مثل 85:30 یا 85.5 ساعت)</label>
+  <input id="fsh" dir="ltr" inputmode="text" placeholder="مثلاً 85:30" style="margin-bottom:10px">
+  <div id="fres"></div>
+</div>
+</div>
 </div>
 </div>
 </main>
 <div class="credit">ساخته‌شده توسط <b>بیژن خاوری</b></div>
 <div id="toast" role="status" aria-live="polite" hidden></div>
+<div id="shs" role="dialog" aria-modal="true" hidden><div class="card" style="max-width:340px;width:100%;margin:0"><h2>📤 اشتراک‌گذاری گزارش</h2><div class="mut" id="shp" style="margin-bottom:10px"></div><div class="g4"><button id="shtg">✈️ تلگرام</button><button id="shwa">💬 واتساپ</button><button id="shrb">🟣 روبیکا</button><button id="rsend">📎 فایل PDF</button></div><details class="more"><summary>ℹ️ راهنما</summary><div class="mut" style="margin-top:4px">تلگرام و واتساپ خلاصه‌ی گزارش را به‌صورت متن باز می‌کنند. روبیکا لینک اشتراک مستقیم ندارد؛ متن کپی می‌شود تا در روبیکا بچسبانی. «فایل PDF» پنجره‌ی اشتراک گوشی را باز می‌کند و هر برنامه‌ای (از جمله روبیکا) را می‌توانی انتخاب کنی.</div></details><textarea id="shtx" readonly rows="4" hidden style="width:100%;margin-top:8px;font-size:.75rem;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px"></textarea><button id="shx" style="width:100%;margin-top:10px">بستن</button></div></div>
 <div id="dlg" role="dialog" aria-modal="true" hidden><div class="card" style="max-width:340px;width:100%;margin:0"><div id="dmsg" style="margin-bottom:10px"></div><input id="din" hidden inputmode="numeric" dir="ltr" style="margin-bottom:10px"><div class="row"><button class="pri" id="dok">تأیید</button><button id="dno">انصراف</button></div></div></div>
 
 <script>
@@ -353,8 +377,8 @@ function render(){
   $('offtx').textContent=S.off?'اختلاف اعمال‌شده: '+fa(S.off)+' دقیقه':'اختلاف اعمال‌شده: ندارد';
   var mot=0,mw=0,aot=0,days={},lvd=0,lvh=0;
   S.entries.forEach(function(e){if(inP(e)){if(e.sh==='l')lvd++;else lvh+=e.lv||0}if(!done(e))return;var w=worked(e)||0,t=ot(e);aot+=t;days[e.date]=1;if(inP(e)){mot+=t;mw+=w}});renderReport();if(!$('pg-stat').hidden)renderStats();if(!$('pg-sal').hidden)renderSal();if(!$('pg-cal').hidden)renderCal();
-  $('mot').textContent=fmt(mot);$('mw').textContent=fmt(mw);$('aot').textContent=fmt(aot);$('cnt').textContent=fa(lvd)+' روز'+(lvh?' + '+hm(lvh):'');
-  var rt=rate();$('sal').value=S.sal?S.sal.toLocaleString('en-US'):'';$('mul').value=S.mul;$('hrs').value=S.hrs;fillPer();$('ins').value=S.ins||'';$('tax').value=S.tax||'';$('oth').value=S.oth?S.oth.toLocaleString('en-US'):'';$('rate1').textContent=S.sal>0?money(S.sal/S.hrs):'—';$('rate2').textContent=rt?money(rt):'—';$('mmw').hidden=!rt;$('mmoney').textContent=money(perOT(pper(0))/60*rt);
+  $('mot').textContent=fmt(mot);$('mw').textContent=fmt(mw);
+  var rt=rate();$('sal').value=S.sal?S.sal.toLocaleString('en-US'):'';$('mul').value=S.mul;$('hrs').value=S.hrs;fillPer();$('ins').value=S.ins||'';$('tax').value=S.tax||'';$('oth').value=S.oth?S.oth.toLocaleString('en-US'):'';$('rate1').textContent=S.sal>0?money(S.sal/S.hrs):'—';$('rate2').textContent=rt?money(rt):'—';
 }
 
 var num=function(v){var x=parseFloat(dig(String(v)).replace(/[,٬،\s]/g,'').replace('٫','.'));return isFinite(x)?x:0};
@@ -408,17 +432,20 @@ function renderSal(){var p=pper(soff),o=0,n={},r=rate(),inP=[];
    +(r?bx(money(oa),'مبلغ اضافه‌کاری','hl')+bx(money(b),'پایه حقوق')+wide(money(gross),'جمع ناخالص (پایه + اضافه‌کاری)','')
      +(hasD?(ia>0?bx('− '+money(ia),'کسر بیمه'):'')+(ta>0?bx('− '+money(ta),'کسر مالیات'):'')+(oh>0?bx('− '+money(oh),'سایر کسورات'):'')+wide(money(net),'خالص تقریبی دریافتی','hl'):'')
     :'<div class="empty" style="grid-column:1/-1">برای دیدن مبلغ، پایه حقوق را وارد کن.<br><button id="gosal" style="margin-top:8px">⚙️ تنظیمات حقوق</button></div>');
-  $('list').innerHTML=inP.length?inP.sort(function(a,b){return (b.date+b.in).localeCompare(a.date+a.in)}).map(entryRow).join(''):'<div class="empty">در این دوره چیزی ثبت نشده است.</div>'}
-$('sbox').onclick=function(ev){if(ev.target.closest('#gosal')){showPg('more');try{$('sal').scrollIntoView({block:'center'})}catch(x){}}};
+}
+$('sbox').onclick=function(ev){if(ev.target.closest('#gosal')){showPg('more','sal');try{$('sal').scrollIntoView({block:'center'})}catch(x){}}};
 $('sprev').onclick=function(){soff--;renderSal()};$('snext').onclick=function(){soff++;renderSal()};
 var REPV='tab';
 function showRep(v){REPV=v;$('rv-tab').hidden=v!=='tab';$('pg-stat').hidden=v!=='stat';$('pg-cal').hidden=v!=='cal';
   [].forEach.call($('rseg').children,function(b){b.className=b.dataset.rv===v?'on':''});
   if(v==='stat')renderStats();if(v==='cal')renderCal()}
-function showPg(p){['home','sal','rep','more'].forEach(function(k){$('pg-'+k).hidden=k!==p});
+var MV='';
+function showMore(v){MV=v;$('mp-menu').hidden=!!v;['manual','time','sal','fish'].forEach(function(k){$('mp-'+k).hidden=k!==v});if(v==='fish')renderSal();try{window.scrollTo(0,0)}catch(x){}}
+$('pg-more').addEventListener('click',function(ev){var m=ev.target.closest('[data-m]');if(m)showMore(m.dataset.m);else if(ev.target.closest('[data-back]'))showMore('')});
+function showPg(p,sub){['home','sal','rep','more'].forEach(function(k){$('pg-'+k).hidden=k!==p});
   [].forEach.call($('tabs').children,function(b){var on=b.dataset.pg===p;b.className=on?'on':'';if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
   if(p==='rep')showRep(REPV);else{$('pg-stat').hidden=true;$('pg-cal').hidden=true}
-  if(p==='sal')renderSal();try{window.scrollTo(0,0)}catch(x){}}
+  if(p==='sal')renderSal();if(p==='more')showMore(sub||'');try{window.scrollTo(0,0)}catch(x){}}
 $('tabs').onclick=function(ev){var b=ev.target.closest('button');if(b)showPg(b.dataset.pg)};
 $('rseg').onclick=function(ev){var b=ev.target.closest('button');if(b)showRep(b.dataset.rv)};
 function renderStats(){crSync();renderCR();var M={},r=rate(),pc={};
@@ -490,11 +517,7 @@ $('madd').onclick=function(){var d=getPick(),i=$('mi').value,o=$('mo').value,sh=
   if(editId){var e=S.entries.find(function(x){return x.id===editId});if(e){e.date=d;e.in=i;e.out=o||null;e.sh=sh;e.man=man;e.lv=lv}}
   else S.entries.push({id:Date.now(),date:d,in:i,out:o||null,sh:sh,man:man,lv:lv});
   save();resetForm();render();tick();toast('ذخیره شد ✓')};
-$('list').onclick=function(ev){
-  var ed=ev.target.closest('[data-ed]'),dl=ev.target.closest('[data-del]');
-  if(ed){var e=S.entries.find(function(x){return String(x.id)===ed.dataset.ed});if(e)startEdit(e)}
-  if(dl){var did=dl.dataset.del;dlg('این مورد حذف شود؟',false,function(){delEntries(function(x){return String(x.id)===did})})}};
-function startEdit(e){showPg('more');editId=e.id;setPick(e.date);$('mi').value=e.in||'';$('mo').value=e.out||'';$('msh').value=['n','l','h'].indexOf(e.sh)>=0?e.sh:'d';
+function startEdit(e){showPg('more','manual');editId=e.id;setPick(e.date);$('mi').value=e.in||'';$('mo').value=e.out||'';$('msh').value=['n','l','h'].indexOf(e.sh)>=0?e.sh:'d';
   $('mlv').value=e.lv?pad(Math.floor(e.lv/60))+':'+pad(e.lv%60):'';$('mman').value=e.man!=null?pad(Math.floor(e.man/60))+':'+pad(e.man%60):'';
   $('ftitle').textContent='ویرایش مورد انتخاب‌شده';$('madd').textContent='ذخیره تغییرات';$('mcancel').hidden=false;
   try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}}
@@ -650,7 +673,7 @@ function renderCal(){
   $('csel').innerHTML=si}
 $('cbody').onclick=function(ev){var c=ev.target.closest('[data-iso]');if(!c)return;calSel=c.dataset.iso;renderCal()};
 $('csel').onclick=function(ev){var b=ev.target.closest('button');if(!b||!calSel)return;
-  if(b.id==='cadd'){showPg('more');resetForm();setPick(calSel);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}
+  if(b.id==='cadd'){showPg('more','manual');resetForm();setPick(calSel);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}
   if(b.id==='ctog'){var want=holKind(calSel)==='',auto=holKind(calSel,1)!=='';if(!S.hov)S.hov={};if(want===auto)delete S.hov[calSel];else S.hov[calSel]=want?1:0;save();render();toast('ذخیره شد ✓')}};
 $('cprev').onclick=function(){calM--;if(calM<1){calM=12;calY--}calSel='';renderCal()};
 $('cnext').onclick=function(){calM++;if(calM>12){calM=1;calY++}calSel='';renderCal()};
@@ -674,7 +697,7 @@ function tm(t){return t?faS(t):'—'}
 var tt=null,dcb=null;
 function toast(t,k){var e=$('toast');e.textContent=t;e.className=k||(/✓/.test(t)?'ok':/نیست|نشد|اشتباه|خطا|ناموفق|قبلاً|وجود دارد|وارد کن|بنویس/.test(t)?'err':'');e.hidden=false;clearTimeout(tt);tt=setTimeout(function(){e.hidden=true},2600)}
 function dlg(msg,inp,cb){$('dmsg').textContent=msg;$('din').hidden=!inp;$('din').value='';dcb=cb;$('dlg').hidden=false;if(inp)$('din').focus();else $('dok').focus()}
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('dlg').hidden)$('dno').click()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!$('shs').hidden)$('shx').click();else if(!$('dlg').hidden)$('dno').click()}});
 $('dno').onclick=function(){$('dlg').hidden=true;dcb=null};
 $('dok').onclick=function(){var v=$('din').value,f=dcb;$('dlg').hidden=true;dcb=null;if(f)f(v)};
 function hm(m){return m>0?faS(Math.floor(m/60)+':'+pad(m%60)):'—'}
@@ -697,7 +720,7 @@ $('rtab').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;
   var iso=b.dataset.red||b.dataset.rdel||b.dataset.radd,es=S.entries.filter(function(e){return e.date===iso}).sort(function(a,c){return (a.in||'').localeCompare(c.in||'')});
   if(b.dataset.red&&es.length){startEdit(es[0]);if(es.length>1)toast('این روز چند ثبت دارد؛ اولی باز شد. بقیه را از صفحه «حقوق» ویرایش کن.')}
   if(b.dataset.rdel&&es.length)dlg('همه ثبت‌های این روز ('+fa(es.length)+' مورد) حذف شود؟',false,function(){delEntries(function(e){return e.date===iso})});
-  if(b.dataset.radd){showPg('more');resetForm();setPick(iso);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}};
+  if(b.dataset.radd){showPg('more','manual');resetForm();setPick(iso);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}};
 $('rimg').onclick=function(){var P=period(),R=rowsFor(P.days),W=720,rh=38,H=150+(R.rows.length+1)*rh,c=document.createElement('canvas'),x,F='Vazirmatn,Tahoma,sans-serif',cx=[605,475,393,298,200,85];
   c.width=W*2;c.height=H*2;x=c.getContext('2d');x.scale(2,2);
   function go(){x.fillStyle='#fff';x.fillRect(0,0,W,H);x.direction='rtl';x.textBaseline='middle';
@@ -720,6 +743,20 @@ function accRef(u){if(!LOCAL)return DB.doc('accounts/'+u);
 function localMode(){if(LOCAL)return;LOCAL=true;$('lmsg').hidden=false;show('auth');
   var ss=null;try{ss=JSON.parse(localStorage.getItem('ot-sess'))}catch(e){}
   if(ss&&ss.u&&ss.h)accRef(ss.u).get().then(function(s){var a=s.exists?s.data():null;if(a&&a.h===ss.h)enter(ss.u,a.name,ss.h)})}
+
+/* ===== خروجی و اشتراک‌گذاری (برای بازه‌ی صفحه‌ی آمار) ===== */
+['rpdf','rcsv','rimg','rsend'].forEach(function(id){var f=$(id).onclick;$(id).onclick=function(){var m=rmode;rmode='c';try{f.apply(this,arguments)}finally{rmode=m}}});
+$('rsend').addEventListener('click',function(){$('shs').hidden=true});
+function shareTxt(){var m=rmode;rmode='c';try{var P=period(),R=rowsFor(P.days),L=[];
+  R.rows.forEach(function(r){if(r[2]==='—'&&r[4]==='—'&&r[5]==='—')return;
+    L.push(r[0]+': '+(r[2]!=='—'?r[2]+'–'+r[3]:(r[4]==='روزانه'?'مرخصی':'—'))+(r[5]!=='—'?' · اضافه‌کاری '+r[5]:''))});
+  return{title:P.title,text:'گزارش اضافه‌کاری'+(ME?' — '+ME.name:'')+'\n'+P.title+'\n\n'+(L.length?L.join('\n'):'موردی ثبت نشده')+'\n\nجمع اضافه‌کاری ('+fa(R.n)+' روز): '+hm(R.ot)}}finally{rmode=m}}
+$('ssh').onclick=function(){var t=shareTxt();$('shp').textContent=t.title;$('shtx').hidden=true;$('shs').hidden=false;$('shtg').focus()};
+$('shx').onclick=function(){$('shs').hidden=true};
+$('shtg').onclick=function(){var t=shareTxt();window.open('https://t.me/share/url?url='+encodeURIComponent(location.href.split('#')[0])+'&text='+encodeURIComponent(t.text),'_blank')};
+$('shwa').onclick=function(){var t=shareTxt();window.open('https://wa.me/?text='+encodeURIComponent(t.text),'_blank')};
+$('shrb').onclick=function(){var t=shareTxt(),ok=function(){toast('متن گزارش کپی شد ✓ روبیکا را باز کن و بچسبان')},fb=function(){$('shtx').value=t.text;$('shtx').hidden=false;try{$('shtx').select()}catch(e){}toast('متن را کپی کن و در روبیکا بچسبان')};
+  try{navigator.clipboard.writeText(t.text).then(ok,fb)}catch(e){fb()}};
 
 initPick();['rf','rt','sf','st'].forEach(pkInit);tick();setInterval(tick,1000);show('ld');
 setTimeout(function(){if(!$('ld').hidden)$('ldb').hidden=false},3000);$('ldb').onclick=localMode;
