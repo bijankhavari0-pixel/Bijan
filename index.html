@@ -214,12 +214,12 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div style="overflow-x:auto"><table id="stab"></table></div>
 </div>
 <div class="card"><h2>📅 بازه دلخواه</h2>
-  <div class="g2"><div><label>از تاریخ</label><input id="rca" inputmode="numeric" dir="ltr" placeholder="1405/07/25"></div><div><label>تا تاریخ</label><input id="rcb" inputmode="numeric" dir="ltr" placeholder="1405/08/25"></div></div>
+  <div class="g2"><div><label>از تاریخ</label><input id="rca" inputmode="numeric" dir="ltr" placeholder="14050725" maxlength="10"></div><div><label>تا تاریخ</label><input id="rcb" inputmode="numeric" dir="ltr" placeholder="14050825" maxlength="10"></div></div>
   <div class="row" style="margin-top:8px"><button class="pri" id="rcgo" style="flex:1">محاسبه</button><button id="rcrep" style="flex:1">نمایش در گزارش</button></div>
   <div class="stats" id="rcres" style="margin-top:10px"></div>
 </div>
 <div class="card"><h2>📊 گزارش جدولی</h2>
-  <div class="row"><button id="rw" style="flex:1">هفتگی</button><button id="rm" style="flex:1">دوره حقوق</button><button id="rc" style="flex:1">بازه دلخواه</button></div>
+  <div class="row"><button id="rw" style="flex:1 1 45%">هفتگی</button><button id="rmo" style="flex:1 1 45%">ماهانه</button><button id="rm" style="flex:1 1 45%">دوره حقوق</button><button id="rc" style="flex:1 1 45%">بازه دلخواه</button></div>
   <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
   <div style="overflow-x:auto"><table id="rtab"></table></div>
   <div class="mut" id="rmoney" style="margin-top:8px"></div>
@@ -228,11 +228,12 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div id="rcw" hidden style="margin-top:10px"><div class="mut">اگر دانلود نشد، متن زیر را کپی کن و در اکسل یا یادداشت بچسبان.</div><textarea id="rct" readonly rows="6" dir="ltr" style="width:100%;margin-top:6px;font-size:.75rem;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px"></textarea></div>
   <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
 </div>
-<div class="card"><h2>📤 خروجی و اشتراک‌گذاری آمار</h2>
+<div class="card"><h2>📤 خروجی و اشتراک‌گذاری گزارش</h2>
+  <div class="mut" style="margin-bottom:10px">گزارشی که بالا انتخاب کرده‌ای (هفتگی، ماهانه، دوره حقوق یا بازه دلخواه) با همهٔ تاریخ‌ها، ورود، خروج و جمع.</div>
   <div class="row"><button class="pri" id="spdf" style="flex:1">📄 ذخیره PDF</button><button id="sxls" style="flex:1">📊 انتقال به اکسل</button></div>
   <button id="sshare" style="width:100%;margin-top:10px">📤 اشتراک‌گذاری</button>
-  <div id="sshw" hidden style="margin-top:10px"><div class="row" style="justify-content:center"><button id="stg">✈️ تلگرام</button><button id="swa">💬 واتس‌اپ</button><button id="sru">🟣 روبیکا</button></div>
-  <button id="sfile" hidden style="width:100%;margin-top:10px">📎 ارسال فایل PDF (انتخاب برنامه)</button></div>
+  <div id="sshw" hidden style="margin-top:10px"><div class="mut" style="margin-bottom:8px;text-align:center">عکس جدول ساخته می‌شود؛ در پنجرهٔ باز شده برنامه را انتخاب کن.</div><div class="row" style="justify-content:center"><button id="stg">✈️ تلگرام</button><button id="swa">💬 واتس‌اپ</button><button id="sru">🟣 روبیکا</button></div>
+  <button id="sfile" hidden style="width:100%;margin-top:10px">📎 ارسال فایل PDF</button></div>
 </div>
 </div>
 <div class="pg" id="pg-sal" hidden>
@@ -469,7 +470,7 @@ $('impf').onchange=function(){var f=this.files[0];this.value='';if(!f)return;var
 $('rcsv').onclick=function(){var P=period(),R=rowsFor(P.days),q=function(c){return '"'+dig(c).replace(/"/g,'""')+'"'},
   L=[['روز','شیفت','ورود','خروج','مرخصی','اضافه‌کاری']].concat(R.rows).concat([['جمع اضافه‌کاری ('+R.n+' روز)','','','','',hm(R.ot)]]),
   t=L.map(function(r){return r.map(q).join(',')}).join('\r\n');
-  dlFile('report-'+(rmode==='w'?'week':'month')+'.csv',t,'text/csv',true);$('rct').value=t;$('rcw').hidden=false;toast('فایل CSV ساخته شد ✓')};
+  dlFile('report-'+(rmode==='w'?'week':rmode==='o'?'month':'period')+'.csv',t,'text/csv',true);$('rct').value=t;$('rcw').hidden=false;toast('فایل CSV ساخته شد ✓')};
 var DB=null,ME=null,ISADM=false,reg=false,LOCAL=false;
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';'})}
 function dig(s){return String(s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776}).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632})}
@@ -512,6 +513,7 @@ function period(){var t=todayISO(),days=[],title,i;
   if(rmode==='w'){var dt=new Date(t+'T12:00:00Z');dt.setUTCDate(dt.getUTCDate()-(dt.getUTCDay()+1)%7+roff*7);
     for(i=0;i<7;i++){days.push(dt.toISOString().slice(0,10));dt.setUTCDate(dt.getUTCDate()+1)}
     var a=iso2j(days[0]),b=iso2j(days[6]);title='هفته '+fa(a[2])+' '+MN[a[1]-1]+' تا '+fa(b[2])+' '+MN[b[1]-1]+' '+faS(b[0])}
+  else if(rmode==='o'){var jt=iso2j(t),mm=jt[1]+roff,yy=jt[0];yy+=Math.floor((mm-1)/12);mm=((mm-1)%12+12)%12+1;days=dayList(j2iso(yy,mm,1),j2iso(yy,mm,dim(yy,mm)));title='ماه '+MN[mm-1]+' '+faS(yy)}
   else if(rmode==='c'&&RC.a){days=dayList(RC.a,RC.b);title='بازه '+plabel(RC)}
   else{if(rmode==='c')rmode='m';var pr=pper(roff);days=dayList(pr.a,pr.b);title='دوره '+plabel(pr)}
   return{days:days,title:title}}
@@ -520,16 +522,18 @@ function rowsFor(days){var rows=[],isos=[],has=[],T=0,n=0;
     w.forEach(function(e){o+=ot(e);lv+=e.lv||0});T+=o;if(w.length)n++;isos.push(iso);has.push(S.entries.some(function(e){return e.date===iso}));
     rows.push([WD[new Date(iso+'T12:00:00Z').getUTCDay()]+' '+fa(j[2])+' '+MN[j[1]-1],es.length?es.map(function(e){return e.sh==='l'?'🏖':e.sh==='h'||holi(e)?'🎉':e.sh==='n'?'🌙':'☀️'}).join(''):'—',w.length?tm(w[0].in):'—',w.length?tm(w[w.length-1].out):'—',dl?'روزانه':hm(lv),hm(o)])});
   return{rows:rows,isos:isos,has:has,ot:T,n:n}}
-function renderReport(){var P=period(),R=rowsFor(P.days);$('rtitle').textContent=P.title;$('rmoney').textContent=rate()?'مبلغ تقریبی اضافه‌کاری این دوره: '+money(R.ot/60*rate()):'';$('rw').className=rmode==='w'?'on':'';$('rm').className=rmode==='m'?'on':'';$('rc').className=rmode==='c'?'on':'';$('rprev').hidden=$('rnext').hidden=rmode==='c';
+function renderReport(){var P=period(),R=rowsFor(P.days);$('rtitle').textContent=P.title;$('rmoney').textContent=rate()?'مبلغ تقریبی اضافه‌کاری این دوره: '+money(R.ot/60*rate()):'';$('rw').className=rmode==='w'?'on':'';$('rm').className=rmode==='m'?'on':'';$('rmo').className=rmode==='o'?'on':'';$('rc').className=rmode==='c'?'on':'';$('rprev').hidden=$('rnext').hidden=rmode==='c';
   $('rtab').innerHTML='<thead><tr><th>روز</th><th>شیفت</th><th>ورود</th><th>خروج</th><th>مرخصی</th><th>اضافه‌کاری</th><th></th></tr></thead><tbody>'+R.rows.map(function(r,k){var iso=R.isos[k];return '<tr>'+r.map(function(c){return '<td>'+c+'</td>'}).join('')+'<td style="white-space:nowrap">'+(R.has[k]?'<button class="x" data-red="'+iso+'" aria-label="ویرایش">✎</button><button class="x" data-rdel="'+iso+'" aria-label="حذف">✕</button>':'<button class="x" data-radd="'+iso+'" aria-label="افزودن">＋</button>')+'</td></tr>'}).join('')+'</tbody><tfoot><tr><td colspan="5">جمع اضافه‌کاری ('+fa(R.n)+' روز)</td><td>'+hm(R.ot)+'</td><td></td></tr></tfoot>'}
-$('rw').onclick=function(){rmode='w';roff=0;renderReport()};$('rm').onclick=function(){rmode='m';roff=0;renderReport()};
+$('rw').onclick=function(){rmode='w';roff=0;renderReport()};$('rm').onclick=function(){rmode='m';roff=0;renderReport()};$('rmo').onclick=function(){rmode='o';roff=0;renderReport()};
 
 function pj(s){var a=dig(s).trim().split(/[\/\-\.\s]+/).map(Number);if(a.length!==3||a.some(isNaN))return '';var y=a[0]<100?1400+a[0]:a[0],m=a[1],d=a[2];if(m<1||m>12||d<1||d>dim(y,m))return '';return j2iso(y,m,d)}
-function rcCalc(){var a=pj($('rca').value),b=pj($('rcb').value);if(!a||!b||a>b){toast('تاریخ‌ها را مثل 1405/07/25 وارد کن و شروع قبل از پایان باشد.');return false}
+function rcCalc(){var a=pj($('rca').value),b=pj($('rcb').value);if(!a||!b||a>b){toast('تاریخ را فقط با عدد وارد کن، مثل 14050725؛ شروع باید قبل از پایان باشد.');return false}
   if(dayList(a,b).length>=400){toast('بازه حداکثر ۴۰۰ روز می‌تواند باشد.');return false}
   RC={a:a,b:b};var w=0,o=0,d={};S.entries.forEach(function(e){if(e.date<a||e.date>b||e.sh==='l'||!done(e))return;d[e.date]=1;w+=worked(e)||0;o+=ot(e)});
   var r=rate(),bx=function(v,l,c){return '<div class="stat'+(c?' '+c:'')+'"><b>'+v+'</b><span>'+l+'</span></div>'};
   $('rcres').innerHTML=bx(fa(Object.keys(d).length)+' روز','روز کاری')+bx(fmt(w),'کارکرد')+bx(fmt(o),'اضافه‌کاری','hl')+(r?bx(money(o/60*r),'مبلغ تقریبی'):'');return true}
+function fmtD(){var d=dig(this.value).replace(/\D/g,'').slice(0,8),o=d;if(d.length>6)o=d.slice(0,4)+'/'+d.slice(4,6)+'/'+d.slice(6);else if(d.length>4)o=d.slice(0,4)+'/'+d.slice(4);this.value=o}
+$('rca').oninput=fmtD;$('rcb').oninput=fmtD;
 $('rcgo').onclick=rcCalc;
 $('rcrep').onclick=function(){if(!rcCalc())return;rmode='c';renderReport();try{$('rtitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}};
 $('rc').onclick=function(){if(!RC.a){toast('اول بازه را بالا وارد کن و «نمایش در گزارش» را بزن.');return}rmode='c';renderReport()};
@@ -584,19 +588,24 @@ function localMode(){if(LOCAL)return;LOCAL=true;$('lmsg').hidden=false;show('aut
 function statsRows(){var R=[];[].forEach.call($('stab').querySelectorAll('tr'),function(tr){var c=[].map.call(tr.children,function(x){return x.textContent.trim()});if(c.length>1)R.push(c)});return R}
 function statsText(){var R=statsRows();if(!R.length)return '';var h=R[0],o=['📊 آمار اضافه‌کاری'+(ME?' — '+ME.name:''),''];
   R.slice(1).forEach(function(r){var tot=r===R[R.length-1];o.push((tot?'— ':'')+r[0]+': '+r.slice(1).map(function(v,i){return h[i+1]+' '+v}).join(' | '))});return o.join('\n')}
-function statsPdf(cb){var R=statsRows();if(!R.length){toast('هنوز آماری برای خروجی نیست.');return}
-  var n=R[0].length,W=720,rh=38,H=130+R.length*rh+20,c=document.createElement('canvas'),x,F='Vazirmatn,Tahoma,sans-serif',cw=(W-40)/n,cx=[];
-  for(var i=0;i<n;i++)cx.push(W-20-cw*i-cw/2);
+function reportCanvas(cb){var P=period(),R=rowsFor(P.days),W=720,rh=38,H=150+(R.rows.length+1)*rh,c=document.createElement('canvas'),x,F='Vazirmatn,Tahoma,sans-serif',cx=[605,475,393,298,200,85];
   c.width=W*2;c.height=H*2;x=c.getContext('2d');x.scale(2,2);
   function go(){x.fillStyle='#fff';x.fillRect(0,0,W,H);x.direction='rtl';x.textBaseline='middle';
-    x.textAlign='right';x.fillStyle='#161a24';x.font='800 22px '+F;x.fillText('آمار اضافه‌کاری'+(ME?' — '+ME.name:''),W-20,40);
-    var y=100;x.textAlign='center';x.fillStyle='#eef1f7';x.fillRect(20,y-rh/2,W-40,rh);x.fillStyle='#161a24';x.font='800 13px '+F;
-    R[0].forEach(function(t,i){x.fillText(t,cx[i],y)});x.font='400 13px '+F;
-    R.slice(1).forEach(function(r,k){y+=rh;var last=k===R.length-2;if(last){x.fillStyle='#fff3d6';x.fillRect(20,y-rh/2,W-40,rh);x.fillStyle='#8a5a00';x.font='800 14px '+F}else{if(k%2){x.fillStyle='#f6f8fc';x.fillRect(20,y-rh/2,W-40,rh)}x.fillStyle='#161a24'}
-      r.forEach(function(t,i){x.fillText(t,cx[i],y)})});
-    var d=atob(c.toDataURL('image/jpeg',.92).split(',')[1]),j=new Uint8Array(d.length);for(var i=0;i<d.length;i++)j[i]=d.charCodeAt(i);
-    cb(makePdf(j,c.width,c.height))}
-  (document.fonts&&document.fonts.load?Promise.all(['400 13px Vazirmatn','800 13px Vazirmatn'].map(function(f){return document.fonts.load(f)})):Promise.resolve()).catch(function(){}).then(go)}
+    x.textAlign='right';x.fillStyle='#161a24';x.font='800 22px '+F;x.fillText('گزارش اضافه‌کاری'+(ME?' — '+ME.name:''),W-20,34);
+    x.font='600 16px '+F;x.fillStyle='#6b7385';x.fillText(P.title,W-20,68);
+    x.textAlign='center';var y=110;x.fillStyle='#eef1f7';x.fillRect(20,y-rh/2,680,rh);x.fillStyle='#161a24';x.font='800 14px '+F;
+    ['روز','شیفت','ورود','خروج','مرخصی','اضافه‌کاری'].forEach(function(t,i){x.fillText(t,cx[i],y)});
+    x.font='400 14px '+F;
+    R.rows.forEach(function(r,k){y+=rh;if(k%2){x.fillStyle='#f6f8fc';x.fillRect(20,y-rh/2,680,rh)}x.fillStyle='#161a24';r.forEach(function(t,i){x.fillText(t,cx[i],y)})});
+    y+=rh;x.fillStyle='#fff3d6';x.fillRect(20,y-rh/2,680,rh);x.fillStyle='#8a5a00';x.font='800 15px '+F;
+    x.textAlign='right';x.fillText('جمع اضافه‌کاری ('+fa(R.n)+' روز)',690,y);x.textAlign='center';x.fillText(hm(R.ot),cx[5],y);
+    cb(c)}
+  (document.fonts&&document.fonts.load?Promise.all(['400 14px Vazirmatn','600 16px Vazirmatn','800 14px Vazirmatn'].map(function(f){return document.fonts.load(f)})):Promise.resolve()).catch(function(){}).then(go)}
+function statsPdf(cb){reportCanvas(function(c){var d=atob(c.toDataURL('image/jpeg',.92).split(',')[1]),j=new Uint8Array(d.length);for(var i=0;i<d.length;i++)j[i]=d.charCodeAt(i);cb(makePdf(j,c.width,c.height))})}
+function shareImg(){reportCanvas(function(c){c.toBlob(function(b){if(!b){toast('ساخت عکس ناموفق بود.');return}
+  var f=null;try{f=new File([b],'overtime-report.png',{type:'image/png'})}catch(e){}
+  if(f&&navigator.canShare&&navigator.share&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:'گزارش اضافه‌کاری'}).catch(function(){});
+  else{saveBlob('overtime-report.png',b);toast('اشتراک مستقیم پشتیبانی نمی‌شود؛ عکس ذخیره شد، از گالری بفرست.')}},'image/png')})}
 function makePdf(jpg,iw,ih){var pw=595,ph=Math.round(595*ih/iw),parts=[],off=[],len=0,enc=new TextEncoder();
   function add(b){if(typeof b==='string')b=enc.encode(b);parts.push(b);len+=b.length}
   function obj(n,s){off[n]=len;add(n+' 0 obj\n'+s+'\nendobj\n')}
@@ -614,9 +623,7 @@ $('sxls').onclick=function(){var R=statsRows();if(!R.length){toast('هنوز آ�
 $('sshare').onclick=function(){var h=$('sshw');h.hidden=!h.hidden;$('sfile').hidden=!(navigator.canShare&&navigator.share)};
 function shareTxt(){var s=statsText();if(!s)toast('هنوز آماری برای اشتراک‌گذاری نیست.');return s}
 function copyTxt(s){try{if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(s)}catch(e){}return Promise.reject()}
-$('stg').onclick=function(){var s=shareTxt();if(s)window.open('https://t.me/share/url?url='+encodeURIComponent(location.href.split('#')[0])+'&text='+encodeURIComponent(s),'_blank')};
-$('swa').onclick=function(){var s=shareTxt();if(s)window.open('https://wa.me/?text='+encodeURIComponent(s),'_blank')};
-$('sru').onclick=function(){var s=shareTxt();if(!s)return;if(navigator.share){navigator.share({text:s}).catch(function(){})}else copyTxt(s).then(function(){toast('متن کپی شد؛ در روبیکا بچسبان.')},function(){toast('کپی نشد.')})};
+$('stg').onclick=$('swa').onclick=$('sru').onclick=shareImg;
 $('sfile').onclick=function(){statsPdf(function(b){var f=new File([b],'overtime-stats.pdf',{type:'application/pdf'});
   if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:'آمار اضافه‌کاری'}).catch(function(){});else{saveBlob('overtime-stats.pdf',b);toast('اشتراک فایل پشتیبانی نمی‌شود؛ PDF ذخیره شد.')}})};
 
