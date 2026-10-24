@@ -110,6 +110,21 @@ input,select{padding:7px 8px;font-size:.88rem}
 .tabs .tab-icon{font-size:1.08rem}
 @media(max-width:420px){main{padding:10px}.card{padding:10px;margin-bottom:9px}.row{gap:7px}.big{padding:10px 8px;font-size:.92rem}.tabs .tab-label{font-size:.62rem}.tabs.collapsed button{flex-basis:40px;width:40px;height:38px}}
 
+
+.big{flex:0 1 auto;min-width:120px;padding:8px 20px;font-size:.92rem}
+#madd,#mcancel{flex:0 0 auto;padding:8px 24px;font-size:.9rem}
+@media(max-width:420px){.big{padding:8px 16px;font-size:.88rem;min-width:110px}}
+
+.nbub{position:absolute;z-index:0;left:0;top:0;width:0;height:0;border-radius:16px;pointer-events:none;background:linear-gradient(160deg,#1268b7,#09264f 72%);border:1px solid #44dfff;box-shadow:0 0 12px rgba(0,190,255,.7),inset 0 1px 0 rgba(255,255,255,.22);transition:left .34s cubic-bezier(.5,1.5,.5,1),top .34s,width .34s cubic-bezier(.5,1.5,.5,1),height .34s,border-radius .24s}
+.tabs button{z-index:1}
+.tabs button.on:not(.x),.tabs.collapsed button.on:not(.x){background:transparent;border-color:transparent;box-shadow:none}
+.tabs button:not(.x):active:not(:disabled){box-shadow:none;filter:none}
+.tabs .tab-icon{display:block}
+.tabs button.on .tab-icon.pop{animation:navPop .42s ease}
+@keyframes navPop{40%{transform:translateY(-6px) scale(1.22)}}
+.nrp{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(68,223,255,.5);transform:scale(0);animation:nrp .6s ease-out forwards;pointer-events:none}
+@keyframes nrp{to{transform:scale(3.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.nbub{transition:none}.tabs button.on .tab-icon.pop,.nrp{animation:none!important}}
 </style>
 </head>
 <body>
@@ -132,7 +147,7 @@ input,select{padding:7px 8px;font-size:.88rem}
 
 
 <div id="app" hidden>
-<div class="row tabs" id="tabs" aria-label="منوی اصلی"><button data-pg="home" class="on" aria-label="ثبت"><span class="tab-icon" aria-hidden="true">🏠</span><span class="tab-label">ثبت</span></button><button data-pg="sal" aria-label="حقوق"><span class="tab-icon" aria-hidden="true">💰</span><span class="tab-label">حقوق</span></button><button data-pg="rep" aria-label="گزارش"><span class="tab-icon" aria-hidden="true">📊</span><span class="tab-label">گزارش</span></button><button data-pg="stat" aria-label="آمار"><span class="tab-icon" aria-hidden="true">📈</span><span class="tab-label">آمار</span></button></div>
+<div class="row tabs" id="tabs" aria-label="منوی اصلی"><div class="nbub" id="nbub" aria-hidden="true"></div><button data-pg="home" class="on" aria-label="ثبت"><span class="tab-icon" aria-hidden="true">🏠</span><span class="tab-label">ثبت</span></button><button data-pg="sal" aria-label="حقوق"><span class="tab-icon" aria-hidden="true">💰</span><span class="tab-label">حقوق</span></button><button data-pg="stat" aria-label="آمار"><span class="tab-icon" aria-hidden="true">📈</span><span class="tab-label">آمار</span></button><button data-pg="set" aria-label="تنظیمات"><span class="tab-icon" aria-hidden="true">⚙️</span><span class="tab-label">تنظیمات</span></button></div>
 <div class="pg" id="pg-home">
 <div class="card clock">
   <div class="clock-accent" aria-hidden="true"><span>✦</span><i></i><span>✦</span></div>
@@ -140,17 +155,15 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div class="date" id="today"></div>
   <div class="status" id="status"></div>
   <div class="row seg" style="justify-content:center;margin-bottom:12px"><button id="shd">☀️ روزکار (۷ تا ۱۹)</button><button id="shn">🌙 شب‌کار (۱۹ تا ۷)</button></div>
-  <div class="row"><button class="big in" id="bin">ثبت ورود</button><button class="big out" id="bout">ثبت خروج</button></div>
+  <div class="row" style="justify-content:center"><button class="big in" id="bin">ثبت ورود</button><button class="big out" id="bout">ثبت خروج</button></div>
   <div class="row" style="margin-top:10px;align-items:flex-end;text-align:right"><div style="flex:1"><label>مرخصی ساعتی امروز (مدت، اختیاری)</label><input type="time" id="lvq"></div><button id="lvd">🏖 مرخصی امروز</button></div>
 </div>
 
 <div class="card"><div class="stats">
-  <div class="stat hl"><b id="mot">۰</b><span>اضافه‌کاری این دوره</span></div>
-  <div class="stat"><b id="mw">۰</b><span>کارکرد این دوره</span></div>
-  <div class="stat"><b id="aot">۰</b><span>کل اضافه‌کاری</span></div>
-  <div class="stat"><b id="cnt">۰</b><span>مرخصی این دوره</span></div>
-  <div class="stat hl" id="mmw" hidden style="grid-column:1/-1"><b id="mmoney">—</b><span>مبلغ تقریبی اضافه‌کاری این دوره حقوق</span></div>
-</div></div>
+  <div class="stat"><b id="mw">۰</b><span>ساعت کارکرد</span></div>
+  <div class="stat hl"><b id="mot">۰</b><span>اضافه‌کاری</span></div>
+</div>
+<div hidden><b id="aot"></b><b id="cnt"></b><span id="mmw" hidden><b id="mmoney"></b></span></div></div>
 
 <div class="card">
   <h2 id="ftitle">ثبت دستی</h2>
@@ -163,6 +176,8 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div class="row"><button class="pri" id="madd">افزودن</button><button id="mcancel" hidden>انصراف</button></div>
 </div>
 
+</div>
+<div class="pg" id="pg-set" hidden>
 <div class="card">
   <h2>تنظیمات ساعت</h2>
   <div class="g2">
@@ -180,8 +195,13 @@ input,select{padding:7px 8px;font-size:.88rem}
   <input type="file" id="impf" accept=".json,application/json" hidden>
 </div>
 </div>
-<div class="pg" id="pg-rep" hidden>
-<div class="card"><h2>گزارش جدولی</h2>
+<div class="pg" id="pg-stat" hidden>
+<div class="card"><h2>📈 آمار</h2>
+  <div class="stats" id="sstats" style="margin-bottom:12px"></div>
+  <div id="schart" style="margin-bottom:12px"></div>
+  <div style="overflow-x:auto"><table id="stab"></table></div>
+</div>
+<div class="card"><h2>📊 گزارش جدولی</h2>
   <div class="row"><button id="rw" style="flex:1">هفتگی</button><button id="rm" style="flex:1">دوره حقوق</button></div>
   <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
   <div style="overflow-x:auto"><table id="rtab"></table></div>
@@ -191,13 +211,11 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div id="rcw" hidden style="margin-top:10px"><div class="mut">اگر دانلود نشد، متن زیر را کپی کن و در اکسل یا یادداشت بچسبان.</div><textarea id="rct" readonly rows="6" dir="ltr" style="width:100%;margin-top:6px;font-size:.75rem;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px"></textarea></div>
   <div id="rpw" hidden style="margin-top:12px"><div class="mut">اگر خودکار ذخیره نشد، روی عکس نگه دار و «ذخیره تصویر» را بزن.</div><img id="rpv" alt="جدول" style="width:100%;border:1px solid var(--bd);border-radius:10px;margin-top:6px"></div>
 </div>
-
-</div>
-<div class="pg" id="pg-stat" hidden>
-<div class="card"><h2>📈 آمار</h2>
-  <div class="stats" id="sstats" style="margin-bottom:12px"></div>
-  <div id="schart" style="margin-bottom:12px"></div>
-  <div style="overflow-x:auto"><table id="stab"></table></div>
+<div class="card"><h2>📤 خروجی و اشتراک‌گذاری آمار</h2>
+  <div class="row"><button class="pri" id="spdf" style="flex:1">📄 ذخیره PDF</button><button id="sxls" style="flex:1">📊 انتقال به اکسل</button></div>
+  <button id="sshare" style="width:100%;margin-top:10px">📤 اشتراک‌گذاری</button>
+  <div id="sshw" hidden style="margin-top:10px"><div class="row" style="justify-content:center"><button id="stg">✈️ تلگرام</button><button id="swa">💬 واتس‌اپ</button><button id="sru">🟣 روبیکا</button></div>
+  <button id="sfile" hidden style="width:100%;margin-top:10px">📎 ارسال فایل PDF (انتخاب برنامه)</button></div>
 </div>
 </div>
 <div class="pg" id="pg-sal" hidden>
@@ -224,7 +242,7 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div class="stats" id="sbox"></div>
   <div class="mut" style="margin-top:8px">مزایا (مثل حق مسکن و بن) در این برآورد نیست. درصد بیمه و مالیات را مطابق فیش حقوقی خودت وارد کن؛ مبلغ‌ها فقط تقریبی‌اند.</div>
 </div>
-<div class="card"><h2>📋 سوابق این دوره</h2><div id="list"></div></div>
+<div id="list" hidden></div>
 </div>
 </div>
 </main>
@@ -345,10 +363,17 @@ function renderSal(){var p=pper(soff),o=0,n={},r=rate(),inP=[];
     :'<div class="empty" style="grid-column:1/-1">برای دیدن مبلغ، پایه حقوق را بالا وارد کن.</div>');
   $('list').innerHTML=inP.length?inP.sort(function(a,b){return (b.date+b.in).localeCompare(a.date+a.in)}).map(entryRow).join(''):'<div class="empty">در این دوره چیزی ثبت نشده است.</div>'}
 $('sprev').onclick=function(){soff--;renderSal()};$('snext').onclick=function(){soff++;renderSal()};
-function showPg(p){['home','sal','rep','stat'].forEach(function(k){$('pg-'+k).hidden=k!==p});
-  [].forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.dataset.pg===p)});
+function showPg(p){['home','sal','stat','set'].forEach(function(k){$('pg-'+k).hidden=k!==p});
+  [].forEach.call($('tabs').querySelectorAll('button'),function(b){b.classList.toggle('on',b.dataset.pg===p)});placeBub();
   $('tabs').classList.remove('collapsed');if(p==='stat')renderStats();if(p==='sal')renderSal();try{window.scrollTo(0,0)}catch(x){}}
-$('tabs').onclick=function(ev){var b=ev.target.closest('button');if(b)showPg(b.dataset.pg)};
+$('tabs').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;
+  var r=document.createElement('span'),q=b.getBoundingClientRect();r.className='nrp';r.style.left=((ev.clientX||q.left+q.width/2)-q.left)+'px';r.style.top=((ev.clientY||q.top+q.height/2)-q.top)+'px';b.appendChild(r);setTimeout(function(){try{r.remove()}catch(x){}},650);
+  showPg(b.dataset.pg);var ic=b.querySelector('.tab-icon');if(ic){ic.classList.remove('pop');void ic.offsetWidth;ic.classList.add('pop')}};
+function placeBub(){var n=$('tabs'),bb=$('nbub'),b=n.querySelector('button.on');if(!bb||!b||!b.offsetWidth)return;
+  bb.style.left=b.offsetLeft+'px';bb.style.top=b.offsetTop+'px';bb.style.width=b.offsetWidth+'px';bb.style.height=b.offsetHeight+'px';bb.style.borderRadius=getComputedStyle(b).borderRadius}
+(function(){var n=$('tabs'),busy=false;function follow(){if(busy)return;busy=true;var t0=Date.now();(function f(){placeBub();if(Date.now()-t0<450)requestAnimationFrame(f);else busy=false})()}
+  try{new MutationObserver(follow).observe(n,{attributes:true,attributeFilter:['class']});if(window.ResizeObserver)new ResizeObserver(function(){placeBub()}).observe(n)}catch(e){}
+  window.addEventListener('resize',placeBub);setTimeout(placeBub,300)})();
 // Floating bottom navigation: collapse on downward scroll, reopen on upward scroll.
 (function(){var nav=$('tabs'),lastY=window.scrollY||0,locked=false;function update(){var y=window.scrollY||0,delta=y-lastY;if(Math.abs(delta)>5&&!locked){if(y>100&&delta>0)nav.classList.add('collapsed');else if(delta<0||y<60)nav.classList.remove('collapsed')}lastY=y}window.addEventListener('scroll',update,{passive:true});nav.addEventListener('touchstart',function(){if(nav.classList.contains('collapsed'))nav.classList.remove('collapsed')},{passive:true});})();
 function renderStats(){var M={},r=rate(),pc={};
@@ -478,7 +503,7 @@ $('rw').onclick=function(){rmode='w';roff=0;renderReport()};$('rm').onclick=func
 $('rprev').onclick=function(){roff--;renderReport()};$('rnext').onclick=function(){roff++;renderReport()};
 $('rtab').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;
   var iso=b.dataset.red||b.dataset.rdel||b.dataset.radd,es=S.entries.filter(function(e){return e.date===iso}).sort(function(a,c){return (a.in||'').localeCompare(c.in||'')});
-  if(b.dataset.red&&es.length){startEdit(es[0]);if(es.length>1)toast('این روز چند ثبت دارد؛ اولی باز شد. بقیه را از صفحه «حقوق» ویرایش کن.')}
+  if(b.dataset.red&&es.length){startEdit(es[0]);if(es.length>1)toast('این روز چند ثبت دارد؛ اولی باز شد.')}
   if(b.dataset.rdel&&es.length)dlg('همه ثبت‌های این روز ('+fa(es.length)+' مورد) حذف شود؟',false,function(){delEntries(function(e){return e.date===iso})});
   if(b.dataset.radd){showPg('home');resetForm();setPick(iso);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')}};
 $('rimg').onclick=function(){var P=period(),R=rowsFor(P.days),W=720,rh=38,H=150+(R.rows.length+1)*rh,c=document.createElement('canvas'),x,F='Vazirmatn,Tahoma,sans-serif',cx=[605,475,393,298,200,85];
@@ -503,6 +528,46 @@ function accRef(u){if(!LOCAL)return DB.doc('accounts/'+u);
 function localMode(){if(LOCAL)return;LOCAL=true;$('lmsg').hidden=false;show('auth');
   var ss=null;try{ss=JSON.parse(localStorage.getItem('ot-sess'))}catch(e){}
   if(ss&&ss.u&&ss.h)accRef(ss.u).get().then(function(s){var a=s.exists?s.data():null;if(a&&a.h===ss.h)enter(ss.u,a.name,ss.h)})}
+
+/* ---- Stats export: PDF / Excel / share ---- */
+function statsRows(){var R=[];[].forEach.call($('stab').querySelectorAll('tr'),function(tr){var c=[].map.call(tr.children,function(x){return x.textContent.trim()});if(c.length>1)R.push(c)});return R}
+function statsText(){var R=statsRows();if(!R.length)return '';var h=R[0],o=['📊 آمار اضافه‌کاری'+(ME?' — '+ME.name:''),''];
+  R.slice(1).forEach(function(r){var tot=r===R[R.length-1];o.push((tot?'— ':'')+r[0]+': '+r.slice(1).map(function(v,i){return h[i+1]+' '+v}).join(' | '))});return o.join('\n')}
+function statsPdf(cb){var R=statsRows();if(!R.length){toast('هنوز آماری برای خروجی نیست.');return}
+  var n=R[0].length,W=720,rh=38,H=130+R.length*rh+20,c=document.createElement('canvas'),x,F='Vazirmatn,Tahoma,sans-serif',cw=(W-40)/n,cx=[];
+  for(var i=0;i<n;i++)cx.push(W-20-cw*i-cw/2);
+  c.width=W*2;c.height=H*2;x=c.getContext('2d');x.scale(2,2);
+  function go(){x.fillStyle='#fff';x.fillRect(0,0,W,H);x.direction='rtl';x.textBaseline='middle';
+    x.textAlign='right';x.fillStyle='#161a24';x.font='800 22px '+F;x.fillText('آمار اضافه‌کاری'+(ME?' — '+ME.name:''),W-20,40);
+    var y=100;x.textAlign='center';x.fillStyle='#eef1f7';x.fillRect(20,y-rh/2,W-40,rh);x.fillStyle='#161a24';x.font='800 13px '+F;
+    R[0].forEach(function(t,i){x.fillText(t,cx[i],y)});x.font='400 13px '+F;
+    R.slice(1).forEach(function(r,k){y+=rh;var last=k===R.length-2;if(last){x.fillStyle='#fff3d6';x.fillRect(20,y-rh/2,W-40,rh);x.fillStyle='#8a5a00';x.font='800 14px '+F}else{if(k%2){x.fillStyle='#f6f8fc';x.fillRect(20,y-rh/2,W-40,rh)}x.fillStyle='#161a24'}
+      r.forEach(function(t,i){x.fillText(t,cx[i],y)})});
+    var d=atob(c.toDataURL('image/jpeg',.92).split(',')[1]),j=new Uint8Array(d.length);for(var i=0;i<d.length;i++)j[i]=d.charCodeAt(i);
+    cb(makePdf(j,c.width,c.height))}
+  (document.fonts&&document.fonts.load?Promise.all(['400 13px Vazirmatn','800 13px Vazirmatn'].map(function(f){return document.fonts.load(f)})):Promise.resolve()).catch(function(){}).then(go)}
+function makePdf(jpg,iw,ih){var pw=595,ph=Math.round(595*ih/iw),parts=[],off=[],len=0,enc=new TextEncoder();
+  function add(b){if(typeof b==='string')b=enc.encode(b);parts.push(b);len+=b.length}
+  function obj(n,s){off[n]=len;add(n+' 0 obj\n'+s+'\nendobj\n')}
+  add('%PDF-1.4\n');obj(1,'<</Type/Catalog/Pages 2 0 R>>');obj(2,'<</Type/Pages/Kids[3 0 R]/Count 1>>');
+  obj(3,'<</Type/Page/Parent 2 0 R/MediaBox[0 0 '+pw+' '+ph+']/Resources<</XObject<</Im0 5 0 R>>>>/Contents 4 0 R>>');
+  var cs='q '+pw+' 0 0 '+ph+' 0 0 cm /Im0 Do Q';obj(4,'<</Length '+cs.length+'>>\nstream\n'+cs+'\nendstream');
+  off[5]=len;add('5 0 obj\n<</Type/XObject/Subtype/Image/Width '+iw+'/Height '+ih+'/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length '+jpg.length+'>>\nstream\n');add(jpg);add('\nendstream\nendobj\n');
+  var xr=len,s='xref\n0 6\n0000000000 65535 f \n';for(var i=1;i<=5;i++)s+=('0000000000'+off[i]).slice(-10)+' 00000 n \n';
+  add(s+'trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n'+xr+'\n%%EOF');
+  return new Blob(parts,{type:'application/pdf'})}
+function saveBlob(name,b){try{var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){try{URL.revokeObjectURL(a.href);a.remove()}catch(e){}},1500)}catch(e){}}
+$('spdf').onclick=function(){statsPdf(function(b){saveBlob('overtime-stats.pdf',b);toast('PDF ساخته شد ✓')})};
+$('sxls').onclick=function(){var R=statsRows();if(!R.length){toast('هنوز آماری برای خروجی نیست.');return}
+  var q=function(c){return '"'+dig(c).replace(/"/g,'""')+'"'};dlFile('overtime-stats.csv',R.map(function(r){return r.map(q).join(',')}).join('\r\n'),'text/csv',true);toast('فایل اکسل (CSV) ساخته شد ✓')};
+$('sshare').onclick=function(){var h=$('sshw');h.hidden=!h.hidden;$('sfile').hidden=!(navigator.canShare&&navigator.share)};
+function shareTxt(){var s=statsText();if(!s)toast('هنوز آماری برای اشتراک‌گذاری نیست.');return s}
+function copyTxt(s){try{if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(s)}catch(e){}return Promise.reject()}
+$('stg').onclick=function(){var s=shareTxt();if(s)window.open('https://t.me/share/url?url='+encodeURIComponent(location.href.split('#')[0])+'&text='+encodeURIComponent(s),'_blank')};
+$('swa').onclick=function(){var s=shareTxt();if(s)window.open('https://wa.me/?text='+encodeURIComponent(s),'_blank')};
+$('sru').onclick=function(){var s=shareTxt();if(!s)return;if(navigator.share){navigator.share({text:s}).catch(function(){})}else copyTxt(s).then(function(){toast('متن کپی شد؛ در روبیکا بچسبان.')},function(){toast('کپی نشد.')})};
+$('sfile').onclick=function(){statsPdf(function(b){var f=new File([b],'overtime-stats.pdf',{type:'application/pdf'});
+  if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:'آمار اضافه‌کاری'}).catch(function(){});else{saveBlob('overtime-stats.pdf',b);toast('اشتراک فایل پشتیبانی نمی‌شود؛ PDF ذخیره شد.')}})};
 
 initPick();tick();setInterval(tick,1000);show('ld');
 setTimeout(function(){if(!$('ld').hidden)$('ldb').hidden=false},3000);$('ldb').onclick=localMode;
