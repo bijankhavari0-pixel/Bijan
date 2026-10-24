@@ -125,6 +125,14 @@ input,select{padding:7px 8px;font-size:.88rem}
 .nrp{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(68,223,255,.5);transform:scale(0);animation:nrp .6s ease-out forwards;pointer-events:none}
 @keyframes nrp{to{transform:scale(3.2);opacity:0}}
 @media (prefers-reduced-motion:reduce){.nbub{transition:none}.tabs button.on .tab-icon.pop,.nrp{animation:none!important}}
+
+.cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;direction:rtl}
+.cd{border:1px solid var(--bd);border-radius:10px;min-height:48px;padding:4px 2px;text-align:center;font-size:.9rem;background:var(--bg);color:#c4cbd9;cursor:pointer;line-height:1.3}
+.cd.hd{border:0;background:transparent;min-height:0;cursor:default;color:var(--mut);font-weight:700}
+.cd.hl{color:#ff7b7b;border-color:rgba(255,110,110,.45)}
+.cd.of{color:#f5c542;border-color:rgba(245,197,66,.7);background:rgba(245,197,66,.12)}
+.cd.td{border-color:#44dfff;box-shadow:0 0 8px rgba(68,223,255,.6)}
+.cd small{display:block;font-size:.62rem;color:#58e8ff}
 </style>
 </head>
 <body>
@@ -147,7 +155,7 @@ input,select{padding:7px 8px;font-size:.88rem}
 
 
 <div id="app" hidden>
-<div class="row tabs" id="tabs" aria-label="منوی اصلی"><div class="nbub" id="nbub" aria-hidden="true"></div><button data-pg="home" class="on" aria-label="ثبت"><span class="tab-icon" aria-hidden="true">🏠</span><span class="tab-label">ثبت</span></button><button data-pg="sal" aria-label="حقوق"><span class="tab-icon" aria-hidden="true">💰</span><span class="tab-label">حقوق</span></button><button data-pg="stat" aria-label="آمار"><span class="tab-icon" aria-hidden="true">📈</span><span class="tab-label">آمار</span></button><button data-pg="set" aria-label="تنظیمات"><span class="tab-icon" aria-hidden="true">⚙️</span><span class="tab-label">تنظیمات</span></button></div>
+<div class="row tabs" id="tabs" aria-label="منوی اصلی"><div class="nbub" id="nbub" aria-hidden="true"></div><button data-pg="home" class="on" aria-label="ثبت"><span class="tab-icon" aria-hidden="true">🏠</span><span class="tab-label">ثبت</span></button><button data-pg="sal" aria-label="حقوق"><span class="tab-icon" aria-hidden="true">💰</span><span class="tab-label">حقوق</span></button><button data-pg="stat" aria-label="آمار"><span class="tab-icon" aria-hidden="true">📈</span><span class="tab-label">آمار</span></button><button data-pg="cal" aria-label="تقویم"><span class="tab-icon" aria-hidden="true">🗓</span><span class="tab-label">تقویم</span></button><button data-pg="set" aria-label="تنظیمات"><span class="tab-icon" aria-hidden="true">⚙️</span><span class="tab-label">تنظیمات</span></button></div>
 <div class="pg" id="pg-home">
 <div class="card clock">
   <div class="clock-accent" aria-hidden="true"><span>✦</span><i></i><span>✦</span></div>
@@ -177,6 +185,10 @@ input,select{padding:7px 8px;font-size:.88rem}
 </div>
 
 </div>
+<div class="pg" id="pg-cal" hidden><div class="card"><h2>🗓 تقویم</h2>
+  <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px"><button id="cprev">قبلی</button><b id="ctitle"></b><button id="cnext">بعدی</button></div>
+  <div class="cg" id="cgrid"></div><div class="mut" id="csum" style="margin-top:10px"></div>
+  <div class="mut" style="margin-top:6px"><span style="color:#f5c542">طلایی</span>: تعطیل رسمی · <span style="color:#ff7b7b">قرمز</span>: پنجشنبه و جمعه · نقره‌ای: روز عادی. روی هر روز بزنی فرم ثبت همان روز باز می‌شود. تعطیلات مذهبی که تاریخشان هر سال عوض می‌شود در تقویم نیست.</div></div></div>
 <div class="pg" id="pg-set" hidden>
 <div class="card">
   <h2>تنظیمات ساعت</h2>
@@ -201,8 +213,13 @@ input,select{padding:7px 8px;font-size:.88rem}
   <div id="schart" style="margin-bottom:12px"></div>
   <div style="overflow-x:auto"><table id="stab"></table></div>
 </div>
+<div class="card"><h2>📅 بازه دلخواه</h2>
+  <div class="g2"><div><label>از تاریخ</label><input id="rca" inputmode="numeric" dir="ltr" placeholder="1405/07/25"></div><div><label>تا تاریخ</label><input id="rcb" inputmode="numeric" dir="ltr" placeholder="1405/08/25"></div></div>
+  <div class="row" style="margin-top:8px"><button class="pri" id="rcgo" style="flex:1">محاسبه</button><button id="rcrep" style="flex:1">نمایش در گزارش</button></div>
+  <div class="stats" id="rcres" style="margin-top:10px"></div>
+</div>
 <div class="card"><h2>📊 گزارش جدولی</h2>
-  <div class="row"><button id="rw" style="flex:1">هفتگی</button><button id="rm" style="flex:1">دوره حقوق</button></div>
+  <div class="row"><button id="rw" style="flex:1">هفتگی</button><button id="rm" style="flex:1">دوره حقوق</button><button id="rc" style="flex:1">بازه دلخواه</button></div>
   <div class="row" style="justify-content:space-between;align-items:center;margin:10px 0"><button id="rprev">قبلی</button><b id="rtitle"></b><button id="rnext">بعدی</button></div>
   <div style="overflow-x:auto"><table id="rtab"></table></div>
   <div class="mut" id="rmoney" style="margin-top:8px"></div>
@@ -240,6 +257,9 @@ input,select{padding:7px 8px;font-size:.88rem}
 <div class="card"><h2>🧾 برآورد حقوق این دوره</h2>
   <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px"><button id="sprev">قبلی</button><b id="stitle"></b><button id="snext">بعدی</button></div>
   <div class="stats" id="sbox"></div>
+  <div class="sep"></div><div class="mut" style="margin-bottom:6px">مقایسه با فیش حقوقی</div>
+  <label>اضافه‌کاری فیش این دوره (ساعت:دقیقه)</label><input id="slip" inputmode="numeric" dir="ltr" placeholder="مثلاً 45:30">
+  <div class="stats" id="slipr" style="margin-top:10px"></div>
   <div class="mut" style="margin-top:8px">مزایا (مثل حق مسکن و بن) در این برآورد نیست. درصد بیمه و مالیات را مطابق فیش حقوقی خودت وارد کن؛ مبلغ‌ها فقط تقریبی‌اند.</div>
 </div>
 <div id="list" hidden></div>
@@ -255,14 +275,14 @@ input,select{padding:7px 8px;font-size:.88rem}
 function g2j(gy,gm,gd){var gdm=[0,31,59,90,120,151,181,212,243,273,304,334],jy;if(gy>1600){jy=979;gy-=1600}else{jy=0;gy-=621}var g2=gm>2?gy+1:gy,days=365*gy+~~((g2+3)/4)-~~((g2+99)/100)+~~((g2+399)/400)-80+gd+gdm[gm-1];jy+=33*~~(days/12053);days%=12053;jy+=4*~~(days/1461);days%=1461;if(days>365){jy+=~~((days-1)/365);days=(days-1)%365}var jm,jd;if(days<186){jm=1+~~(days/31);jd=1+days%31}else{jm=7+~~((days-186)/30);jd=1+(days-186)%30}return[jy,jm,jd]}
 function j2g(jy,jm,jd){var gy;if(jy>979){gy=1600;jy-=979}else{gy=621}var days=365*jy+~~(jy/33)*8+~~((jy%33+3)/4)+78+jd+(jm<7?(jm-1)*31:(jm-7)*30+186);gy+=400*~~(days/146097);days%=146097;if(days>36524){gy+=100*~~(--days/36524);days%=36524;if(days>=365)days++}gy+=4*~~(days/1461);days%=1461;if(days>365){gy+=~~((days-1)/365);days=(days-1)%365}var gd=days+1,sa=[0,31,(gy%4==0&&gy%100!=0)||gy%400==0?29:28,31,30,31,30,31,31,30,31,30,31],gm;for(gm=0;gm<13;gm++){if(gd<=sa[gm])break;gd-=sa[gm]}return[gy,gm,gd]}
 //J-END
-var KEY='ot-tracker-v2',S={std:8,tz:'tehran',off:0,upd:0,nm:560,sh:'d',sal:0,mul:1.4,hrs:220,ins:0,tax:0,oth:0,ps:1,pe:31,pa:'',pb:'',entries:[]};
+var KEY='ot-tracker-v2',S={std:8,tz:'tehran',off:0,upd:0,nm:560,sh:'d',sal:0,mul:1.4,hrs:220,ins:0,tax:0,oth:0,ps:1,pe:31,pa:'',pb:'',slip:{},entries:[]};
 var MN=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 var WD=['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
 var $=function(i){return document.getElementById(i)};
 var pad=function(n){return String(n).padStart(2,'0')};
 var fa=function(n){return Number(n).toLocaleString('fa-IR')};
 var faS=function(s){return String(s).replace(/\d/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})};
-function norm(o){o=o||{};var T=/^\d\d:\d\d$/;return{std:8,tz:o.tz==='device'?'device':'tehran',off:+o.off||0,upd:+o.upd||0,sal:o.sal>0?+o.sal:0,mul:o.mul>0&&o.mul<=5?+o.mul:1.4,hrs:o.hrs>=50&&o.hrs<=400?+o.hrs:220,ins:o.ins>=0&&o.ins<=50?+o.ins:0,tax:o.tax>=0&&o.tax<=50?+o.tax:0,oth:o.oth>0?+o.oth:0,ps:o.ps>=1&&o.ps<=31?Math.round(+o.ps):1,pe:o.pe>=1&&o.pe<=31?Math.round(+o.pe):31,pa:/^\d{4}-\d\d-\d\d$/.test(o.pa)?o.pa:'',pb:/^\d{4}-\d\d-\d\d$/.test(o.pb)?o.pb:'',nm:o.nm>=60&&o.nm<=1440?+o.nm:560,sh:o.sh==='n'?'n':'d',entries:Array.isArray(o.entries)?o.entries.filter(function(e){return e&&e.date&&(e.in||e.man!=null||e.sh==='l')}):[]}}
+function norm(o){o=o||{};var T=/^\d\d:\d\d$/;return{std:8,tz:o.tz==='device'?'device':'tehran',off:+o.off||0,upd:+o.upd||0,sal:o.sal>0?+o.sal:0,mul:o.mul>0&&o.mul<=5?+o.mul:1.4,hrs:o.hrs>=50&&o.hrs<=400?+o.hrs:220,ins:o.ins>=0&&o.ins<=50?+o.ins:0,tax:o.tax>=0&&o.tax<=50?+o.tax:0,oth:o.oth>0?+o.oth:0,ps:o.ps>=1&&o.ps<=31?Math.round(+o.ps):1,pe:o.pe>=1&&o.pe<=31?Math.round(+o.pe):31,pa:/^\d{4}-\d\d-\d\d$/.test(o.pa)?o.pa:'',pb:/^\d{4}-\d\d-\d\d$/.test(o.pb)?o.pb:'',nm:o.nm>=60&&o.nm<=1440?+o.nm:560,sh:o.sh==='n'?'n':'d',slip:o.slip&&typeof o.slip==='object'?o.slip:{},entries:Array.isArray(o.entries)?o.entries.filter(function(e){return e&&e.date&&(e.in||e.man!=null||e.sh==='l')}):[]}}
 function loadLocal(){S=norm({});try{var r0=localStorage.getItem(KEY);if(r0)S=norm(JSON.parse(r0))}catch(e){}}
 var ref=null,pushT=null,editId=null;
 function save(){S.upd=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
@@ -287,7 +307,8 @@ function span(e){if(!e.in||!e.out)return null;var a=mins(e.in),b=mins(e.out);if(
 function worked(e){var s=span(e);return s?Math.max(0,s[1]-s[0]-(e.lv||0)):null}
 function done(e){return e.man!=null||!!(e.in&&e.out)}
 function holi(e){return e.sh==='h'||[4,5].indexOf(new Date(e.date+'T12:00:00Z').getUTCDay())>=0}
-function ot(e,c){if(e.man!=null)return e.man;if(e.sh==='l')return 0;if(holi(e))return done(e)?690:0;c=c||S;var w=worked(e);return w==null?0:Math.max(0,w-(c.nm||560))}
+function fullShift(e){var a=mins(e.in),b=mins(e.out),T=30,d=function(x,y){var z=Math.abs(x-y)%1440;return Math.min(z,1440-z)};return(d(a,420)<=T&&d(b,1140)<=T)||(d(a,1140)<=T&&d(b,420)<=T)}
+function ot(e,c){if(e.man!=null)return e.man;if(e.sh==='l')return 0;if(holi(e)){if(!done(e))return 0;var s=span(e);if(!s)return 690;if(fullShift(e))return Math.max(0,690-(e.lv||0));return Math.max(0,s[1]-s[0]-(e.lv||0))}c=c||S;var w=worked(e);return w==null?0:Math.max(0,w-(c.nm||560))}
 function fmt(m){m=Math.round(m);return fa(Math.floor(m/60))+' ساعت و '+fa(m%60)+' دقیقه'}
 function openEntry(){return S.entries.find(function(e){return e.in&&!e.out&&e.man==null})}
 
@@ -361,11 +382,12 @@ function renderSal(){var p=pper(soff),o=0,n={},r=rate(),inP=[];
    +(r?bx(money(oa),'مبلغ اضافه‌کاری','hl')+bx(money(b),'پایه حقوق')+wide(money(gross),'جمع ناخالص (پایه + اضافه‌کاری)','')
      +(hasD?(ia>0?bx('− '+money(ia),'کسر بیمه'):'')+(ta>0?bx('− '+money(ta),'کسر مالیات'):'')+(oh>0?bx('− '+money(oh),'سایر کسورات'):'')+wide(money(net),'خالص تقریبی دریافتی','hl'):'')
     :'<div class="empty" style="grid-column:1/-1">برای دیدن مبلغ، پایه حقوق را بالا وارد کن.</div>');
+  SP=p;SO=o;slipRender();
   $('list').innerHTML=inP.length?inP.sort(function(a,b){return (b.date+b.in).localeCompare(a.date+a.in)}).map(entryRow).join(''):'<div class="empty">در این دوره چیزی ثبت نشده است.</div>'}
 $('sprev').onclick=function(){soff--;renderSal()};$('snext').onclick=function(){soff++;renderSal()};
-function showPg(p){['home','sal','stat','set'].forEach(function(k){$('pg-'+k).hidden=k!==p});
+function showPg(p){['home','sal','stat','cal','set'].forEach(function(k){$('pg-'+k).hidden=k!==p});
   [].forEach.call($('tabs').querySelectorAll('button'),function(b){b.classList.toggle('on',b.dataset.pg===p)});placeBub();
-  $('tabs').classList.remove('collapsed');if(p==='stat')renderStats();if(p==='sal')renderSal();try{window.scrollTo(0,0)}catch(x){}}
+  $('tabs').classList.remove('collapsed');if(p==='stat')renderStats();if(p==='sal')renderSal();if(p==='cal')renderCal();try{window.scrollTo(0,0)}catch(x){}}
 $('tabs').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;
   var r=document.createElement('span'),q=b.getBoundingClientRect();r.className='nrp';r.style.left=((ev.clientX||q.left+q.width/2)-q.left)+'px';r.style.top=((ev.clientY||q.top+q.height/2)-q.top)+'px';b.appendChild(r);setTimeout(function(){try{r.remove()}catch(x){}},650);
   showPg(b.dataset.pg);var ic=b.querySelector('.tab-icon');if(ic){ic.classList.remove('pop');void ic.offsetWidth;ic.classList.add('pop')}};
@@ -421,7 +443,7 @@ $('rsync').onclick=function(){S.off=0;save();render();tick()};
 $('mcancel').onclick=resetForm;
 $('madd').onclick=function(){var d=getPick(),i=$('mi').value,o=$('mo').value,sh=$('msh').value,mm=$('mman').value,man=mm?mins(mm):null,lv=$('mlv').value?mins($('mlv').value):0;
   if(sh==='l'){i='';o='';man=null;lv=0}
-  else if(!i&&man==null){toast('ساعت ورود یا اضافه‌کاری دستی را وارد کن.');return}
+  else if(!i&&man==null){if(sh==='h'||[4,5].indexOf(new Date(d+'T12:00:00Z').getUTCDay())>=0){i=sh==='n'?'19:00':'07:00';o=sh==='n'?'07:00':'19:00'}else{toast('ساعت ورود یا اضافه‌کاری دستی را وارد کن.');return}}
   if(!i)o='';
   var op=openEntry();if(i&&!o&&man==null&&op&&(!editId||op.id!==editId)){toast('یک ورود بدون خروج وجود دارد؛ اول خروجش را ثبت کن.');return}
   if(editId){var e=S.entries.find(function(x){return x.id===editId});if(e){e.date=d;e.in=i;e.out=o||null;e.sh=sh;e.man=man;e.lv=lv}}
@@ -478,7 +500,7 @@ $('ago').onclick=function(){aerr('');
 
 
 
-var PN=/^[\u0621-\u063A\u0641-\u064A\u067E\u0686\u0698\u06A9\u06AF\u06CC\u200c ]{2,30}$/,rmode='w',roff=0;
+var PN=/^[\u0621-\u063A\u0641-\u064A\u067E\u0686\u0698\u06A9\u06AF\u06CC\u200c ]{2,30}$/,rmode='w',roff=0,RC={a:'',b:''},SP=null,SO=0,coff=0;
 function tm(t){return t?faS(t):'—'}
 var tt=null,dcb=null;
 function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(tt);tt=setTimeout(function(){e.hidden=true},2600)}
@@ -490,16 +512,45 @@ function period(){var t=todayISO(),days=[],title,i;
   if(rmode==='w'){var dt=new Date(t+'T12:00:00Z');dt.setUTCDate(dt.getUTCDate()-(dt.getUTCDay()+1)%7+roff*7);
     for(i=0;i<7;i++){days.push(dt.toISOString().slice(0,10));dt.setUTCDate(dt.getUTCDate()+1)}
     var a=iso2j(days[0]),b=iso2j(days[6]);title='هفته '+fa(a[2])+' '+MN[a[1]-1]+' تا '+fa(b[2])+' '+MN[b[1]-1]+' '+faS(b[0])}
-  else{var pr=pper(roff);days=dayList(pr.a,pr.b);title='دوره '+plabel(pr)}
+  else if(rmode==='c'&&RC.a){days=dayList(RC.a,RC.b);title='بازه '+plabel(RC)}
+  else{if(rmode==='c')rmode='m';var pr=pper(roff);days=dayList(pr.a,pr.b);title='دوره '+plabel(pr)}
   return{days:days,title:title}}
 function rowsFor(days){var rows=[],isos=[],has=[],T=0,n=0;
   days.forEach(function(iso){var es=S.entries.filter(function(e){return e.date===iso&&(done(e)||e.sh==='l')}).sort(function(a,b){return (a.in||'').localeCompare(b.in||'')}),w=es.filter(function(e){return e.sh!=='l'}),o=0,lv=0,dl=es.length>w.length,j=iso2j(iso);
     w.forEach(function(e){o+=ot(e);lv+=e.lv||0});T+=o;if(w.length)n++;isos.push(iso);has.push(S.entries.some(function(e){return e.date===iso}));
     rows.push([WD[new Date(iso+'T12:00:00Z').getUTCDay()]+' '+fa(j[2])+' '+MN[j[1]-1],es.length?es.map(function(e){return e.sh==='l'?'🏖':e.sh==='h'||holi(e)?'🎉':e.sh==='n'?'🌙':'☀️'}).join(''):'—',w.length?tm(w[0].in):'—',w.length?tm(w[w.length-1].out):'—',dl?'روزانه':hm(lv),hm(o)])});
   return{rows:rows,isos:isos,has:has,ot:T,n:n}}
-function renderReport(){var P=period(),R=rowsFor(P.days);$('rtitle').textContent=P.title;$('rmoney').textContent=rate()?'مبلغ تقریبی اضافه‌کاری این دوره: '+money(R.ot/60*rate()):'';$('rw').className=rmode==='w'?'on':'';$('rm').className=rmode==='m'?'on':'';
+function renderReport(){var P=period(),R=rowsFor(P.days);$('rtitle').textContent=P.title;$('rmoney').textContent=rate()?'مبلغ تقریبی اضافه‌کاری این دوره: '+money(R.ot/60*rate()):'';$('rw').className=rmode==='w'?'on':'';$('rm').className=rmode==='m'?'on':'';$('rc').className=rmode==='c'?'on':'';$('rprev').hidden=$('rnext').hidden=rmode==='c';
   $('rtab').innerHTML='<thead><tr><th>روز</th><th>شیفت</th><th>ورود</th><th>خروج</th><th>مرخصی</th><th>اضافه‌کاری</th><th></th></tr></thead><tbody>'+R.rows.map(function(r,k){var iso=R.isos[k];return '<tr>'+r.map(function(c){return '<td>'+c+'</td>'}).join('')+'<td style="white-space:nowrap">'+(R.has[k]?'<button class="x" data-red="'+iso+'" aria-label="ویرایش">✎</button><button class="x" data-rdel="'+iso+'" aria-label="حذف">✕</button>':'<button class="x" data-radd="'+iso+'" aria-label="افزودن">＋</button>')+'</td></tr>'}).join('')+'</tbody><tfoot><tr><td colspan="5">جمع اضافه‌کاری ('+fa(R.n)+' روز)</td><td>'+hm(R.ot)+'</td><td></td></tr></tfoot>'}
 $('rw').onclick=function(){rmode='w';roff=0;renderReport()};$('rm').onclick=function(){rmode='m';roff=0;renderReport()};
+
+function pj(s){var a=dig(s).trim().split(/[\/\-\.\s]+/).map(Number);if(a.length!==3||a.some(isNaN))return '';var y=a[0]<100?1400+a[0]:a[0],m=a[1],d=a[2];if(m<1||m>12||d<1||d>dim(y,m))return '';return j2iso(y,m,d)}
+function rcCalc(){var a=pj($('rca').value),b=pj($('rcb').value);if(!a||!b||a>b){toast('تاریخ‌ها را مثل 1405/07/25 وارد کن و شروع قبل از پایان باشد.');return false}
+  if(dayList(a,b).length>=400){toast('بازه حداکثر ۴۰۰ روز می‌تواند باشد.');return false}
+  RC={a:a,b:b};var w=0,o=0,d={};S.entries.forEach(function(e){if(e.date<a||e.date>b||e.sh==='l'||!done(e))return;d[e.date]=1;w+=worked(e)||0;o+=ot(e)});
+  var r=rate(),bx=function(v,l,c){return '<div class="stat'+(c?' '+c:'')+'"><b>'+v+'</b><span>'+l+'</span></div>'};
+  $('rcres').innerHTML=bx(fa(Object.keys(d).length)+' روز','روز کاری')+bx(fmt(w),'کارکرد')+bx(fmt(o),'اضافه‌کاری','hl')+(r?bx(money(o/60*r),'مبلغ تقریبی'):'');return true}
+$('rcgo').onclick=rcCalc;
+$('rcrep').onclick=function(){if(!rcCalc())return;rmode='c';renderReport();try{$('rtitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}};
+$('rc').onclick=function(){if(!RC.a){toast('اول بازه را بالا وارد کن و «نمایش در گزارش» را بزن.');return}rmode='c';renderReport()};
+
+function slipRender(){if(!SP)return;var v=S.slip[SP.a],el=$('slip');if(document.activeElement!==el)el.value=v!=null?Math.floor(v/60)+':'+pad(v%60):'';
+  if(v==null){$('slipr').innerHTML='';return}var d=SO-v,r=rate(),bx=function(x,l,c){return '<div class="stat'+(c?' '+c:'')+'"><b>'+x+'</b><span>'+l+'</span></div>'};
+  $('slipr').innerHTML=bx(hm(SO),'طبق برنامه')+bx(hm(v),'طبق فیش')+'<div class="stat hl" style="grid-column:1/-1"><b>'+(Math.abs(d)<1?'بدون اختلاف':hm(Math.abs(d))+(d>0?' بیشتر در برنامه':' بیشتر در فیش')+(r?' · '+money(Math.abs(d)/60*r):''))+'</b><span>اختلاف</span></div>'}
+$('slip').oninput=function(){if(!SP)return;var s=dig(this.value).trim(),m=s.match(/^(\d+):(\d{1,2})$/),h=s.match(/^\d+(\.\d+)?$/);
+  if(!s)delete S.slip[SP.a];else if(m)S.slip[SP.a]=+m[1]*60+ +m[2];else if(h)S.slip[SP.a]=Math.round(parseFloat(s)*60);else return;save();slipRender()};
+
+var OFF={'1-1':1,'1-2':1,'1-3':1,'1-4':1,'1-12':1,'1-13':1,'3-14':1,'3-15':1,'11-22':1,'12-29':1};
+function renderCal(){var T=iso2j(todayISO()),y=T[0],m=T[1]+coff,i,d;y+=Math.floor((m-1)/12);m=((m-1)%12+12)%12+1;
+  var n=dim(y,m),f=(new Date(j2iso(y,m,1)+'T12:00:00Z').getUTCDay()+1)%7,td=todayISO(),tot=0,nd=0,
+  h=['ش','ی','د','س','چ','پ','ج'].map(function(x){return '<div class="cd hd">'+x+'</div>'}).join('');
+  for(i=0;i<f;i++)h+='<div></div>';
+  for(d=1;d<=n;d++){var iso=j2iso(y,m,d),dw=(f+d-1)%7,o=0,w=0;
+    S.entries.forEach(function(e){if(e.date===iso&&e.sh!=='l'&&done(e)){o+=ot(e);w=1}});tot+=o;nd+=w;
+    h+='<div class="cd'+(OFF[m+'-'+d]?' of':dw>=5?' hl':'')+(iso===td?' td':'')+'" data-iso="'+iso+'">'+fa(d)+(o?'<small>'+hm(o)+'</small>':'')+'</div>'}
+  $('cgrid').innerHTML=h;$('ctitle').textContent=MN[m-1]+' '+faS(y);$('csum').textContent='جمع اضافه‌کاری این ماه: '+hm(tot)+' ('+fa(nd)+' روز کاری)'}
+$('cprev').onclick=function(){coff--;renderCal()};$('cnext').onclick=function(){coff++;renderCal()};
+$('cgrid').onclick=function(ev){var c=ev.target.closest('[data-iso]');if(!c)return;showPg('home');resetForm();setPick(c.dataset.iso);try{$('ftitle').scrollIntoView({behavior:'smooth',block:'center'})}catch(x){}toast('تاریخ انتخاب شد؛ نوع شیفت و ساعت‌ها را وارد کن.')};
 $('rprev').onclick=function(){roff--;renderReport()};$('rnext').onclick=function(){roff++;renderReport()};
 $('rtab').onclick=function(ev){var b=ev.target.closest('button');if(!b)return;
   var iso=b.dataset.red||b.dataset.rdel||b.dataset.radd,es=S.entries.filter(function(e){return e.date===iso}).sort(function(a,c){return (a.in||'').localeCompare(c.in||'')});
